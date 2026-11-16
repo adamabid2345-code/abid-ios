@@ -1,0 +1,515 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<style>html{color-scheme:dark;background:#050505}body{margin:0}</style>
+<title>ABID Terminal</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap">
+<style>
+/* Layout: fixed code-rain canvas behind everything; landing screen (logo, ABID art, code lines) then the terminal. */
+:root {
+  --bg: #050505;
+  --green: #00ff66;
+  --red: #ff2a2a;
+  --dim: #7a7a7a;
+  --line: #0a6b30;
+  --mono: "Share Tech Mono", ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+  color-scheme: dark;
+}
+html, body { height: auto; }
+body {
+  background: var(--bg);
+  color: var(--green);
+  font-family: var(--mono);
+  font-size: 14px;
+  line-height: 1.6;
+  padding-block: 20px 32px;
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+}
+#bg {
+  position: fixed; inset: 0; width: 100%; height: 100%;
+  z-index: 0; opacity: 0.55; pointer-events: none; transition: opacity 0.8s;
+}
+#bg.dim { opacity: 0.16; }
+.term { max-width: 640px; margin: 0 auto; min-width: 0; position: relative; z-index: 1; }
+pre { margin: 0; font-family: var(--mono); white-space: pre; overflow-x: auto; }
+#landing { display: flex; flex-direction: column; align-items: center; gap: 14px; text-align: center; }
+#logo {
+  display: block; width: 100%; max-width: 360px; aspect-ratio: 1 / 1; object-fit: cover;
+  border: 1px solid var(--line); opacity: 0; background: #000;
+}
+#title { color: var(--red); font-size: 13px; line-height: 1.15; text-align: left; min-height: 90px; }
+#code { color: var(--green); font-size: 12px; text-align: left; width: 100%; max-width: 360px; min-height: 40px; overflow-wrap: anywhere; }
+#hint { color: var(--dim); visibility: hidden; }
+#out > div { min-height: 1.6em; overflow-wrap: anywhere; }
+.dim { color: var(--dim); }
+.red { color: var(--red); }
+#out a { color: var(--green); text-decoration: underline; text-underline-offset: 3px; }
+#out a:focus-visible, button:focus-visible, input:focus-visible { outline: 2px solid var(--green); outline-offset: 2px; }
+#row { display: none; align-items: center; gap: 8px; margin-top: 10px; }
+#row span { white-space: nowrap; }
+#cmd {
+  flex: 1; min-width: 0; background: #000; color: var(--green);
+  border: 1px solid var(--line); border-radius: 0; font-family: var(--mono);
+  font-size: 16px; height: 40px; padding: 0 10px; caret-color: var(--green);
+}
+.chips { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 18px; }
+button {
+  background: rgba(0, 0, 0, 0.6); color: var(--green); border: 1px solid var(--line);
+  border-radius: 0; font-family: var(--mono); font-size: 13px; padding: 8px 10px; cursor: pointer;
+}
+button:hover { background: #0a1a10; }
+@keyframes shake {
+  0% { transform: translate(0, 0); }
+  20% { transform: translate(-5px, 3px); }
+  40% { transform: translate(6px, -4px); }
+  60% { transform: translate(-4px, -3px); }
+  80% { transform: translate(5px, 4px); }
+  100% { transform: translate(0, 0); }
+}
+#back{position:fixed;top:calc(env(safe-area-inset-top,0px) + 10px);left:12px;z-index:5;color:var(--green);text-decoration:none;border:1px solid var(--line);background:rgba(0,0,0,.7);padding:8px 12px;font-size:13px;letter-spacing:.1em}
+#back:active{background:#0a1a10}
+#edit{position:fixed;inset:0;z-index:60;background:rgba(0,0,0,.95);display:none;overflow:auto;padding:calc(env(safe-area-inset-top,0px) + 56px) 16px 32px}
+#edit.on{display:block}
+#edit .box{max-width:640px;margin:0 auto;display:flex;flex-direction:column;gap:10px}
+#edit input{background:#000;color:var(--green);border:1px solid var(--line);border-radius:0;font-family:var(--mono);font-size:16px;padding:11px 10px}
+#edit h3{color:var(--red);font-weight:normal;letter-spacing:.2em;margin:0}
+.er{display:flex;justify-content:space-between;align-items:center;gap:10px;border-bottom:1px solid #0a2a14;padding:6px 0;overflow-wrap:anywhere}
+#emsg{color:var(--dim);min-height:1.4em}
+.shake { animation: shake 0.25s linear infinite; }
+</style>
+
+</head>
+<body>
+<canvas id="bg" aria-hidden="true"></canvas>
+<a id="back" href="abid.html#home">&lt; ABID</a>
+
+<div class="term">
+  <section id="landing" aria-label="ABID">
+    <img id="logo" alt="" style="display:none">
+    <pre id="title" aria-hidden="true"></pre>
+    <div id="code" aria-hidden="true"></div>
+    <div id="hint">&gt; tap to enter_</div>
+  </section>
+
+  <div id="termview" hidden>
+    <div id="out" aria-live="polite"></div>
+    <div id="row">
+      <span>abid@root:~#</span>
+      <input id="cmd" type="text" autocomplete="off" autocapitalize="off" spellcheck="false" aria-label="Command">
+    </div>
+    <div class="chips" id="chips" hidden></div>
+  </div>
+</div>
+
+<div id="edit"><div class="box"><h3>EDIT COMMANDS</h3>
+<input id="ek" placeholder="word / command (ex: abid hello)" autocapitalize="off" autocomplete="off" spellcheck="false">
+<input id="er" placeholder="reply (what the terminal says)" autocomplete="off">
+<input id="ew" placeholder="link (optional)" autocapitalize="off" autocomplete="off" spellcheck="false">
+<div style="display:flex;gap:8px"><button type="button" id="eadd">save</button><button type="button" id="eclose">close</button></div>
+<div id="emsg"></div><div id="elist"></div></div></div>
+<script>
+const art = [
+" █████╗ ██████╗ ██╗██████╗ ",
+"██╔══██╗██╔══██╗██║██╔══██╗",
+"███████║██████╔╝██║██║  ██║",
+"██╔══██║██╔══██╗██║██║  ██║",
+"██║  ██║██████╔╝██║██████╔╝",
+"╚═╝  ╚═╝╚═════╝ ╚═╝╚═════╝ "];
+const CODE_LINES = [
+  'root@abid:~# ./exploit --target=ios',
+  'class ABID extends Hacker { root = true }'
+];
+
+/* Edit the links here. "sileo" = repo to add in Sileo, "web" = site or app link to open. */
+const cmds = {
+  'abid star':              { reply: 'Welcome boss' },
+  'abid palera1n':          { reply: "OK boss, I'm ready, my leader" },
+  'abid device':            { reply: 'Scanning device ...', device: true },
+  'abid open source wa':    { reply: 'OK boss', sileo: 'REPO_WA' },
+  'abid open source sna':   { reply: 'OK boss', sileo: 'REPO_SNA' },
+  'abid open source twek':  { reply: 'OK boss', sileo: 'REPO_TWEK' },
+  'abid open source big':   { reply: 'OK boss', sileo: 'http://apt.thebigboss.org/repofiles/cydia/dists/stable/main/binary-iphoneos-arm/' },
+  'abid open source elkit': { reply: 'OK boss', web: 'https://github.com/palera1n/ellekit' },
+  'abid open link maps':    { reply: 'OK boss', web: 'https://www.openstreetmap.org' },
+  'abid open link dopamin': { reply: 'OK boss', web: 'https://github.com/opa334/dopamine' },
+  'abid open link troll':   { reply: 'OK boss', web: 'https://ipaomtk.com/trollstore/' },
+  'abid open link loc':     { reply: 'OK boss', web: 'https://ipaomtk.com/locationsimulation-ipa/' },
+  'abid open link appstore': { reply: 'OK boss', web: 'https://ipaomtk.com/appstore-plus-plus/' },
+  'abid open link vpn':     { reply: 'OK boss', web: 'https://apps.apple.com/es/app/1-1-1-1-faster-internet/id1423538627?l=en-GB' },
+  'abid open link repos':   { reply: 'OK boss', web: 'https://www.ios-repo-updates.com/repositories/amp/' }
+};
+
+
+/* custom commands added from the "edit commands" panel (saved on this device) */
+const baseCmds = Object.assign({}, cmds);
+let customCmds = {};
+try { customCmds = JSON.parse(localStorage.getItem('abid_cmds') || '{}'); } catch (e) {}
+function saveCustom() { try { localStorage.setItem('abid_cmds', JSON.stringify(customCmds)); } catch (e) {} }
+for (const k in customCmds) { const c = customCmds[k]; cmds[k] = { reply: c.reply }; if (c.web) cmds[k].web = c.web; }
+
+const reduced = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+const sleep = ms => new Promise(r => setTimeout(r, ms));
+
+let actx = null, master = null, soundOn = false, droneNodes = null;
+function ensureAudio() {
+  if (actx) return actx;
+  const AC = window.AudioContext || window.webkitAudioContext;
+  if (!AC) return null;
+  try { actx = new AC(); } catch (e) { return null; }
+  master = actx.createGain(); master.gain.value = 0.6; master.connect(actx.destination);
+  return actx;
+}
+function startDrone() {
+  if (droneNodes || !actx) return;
+  const lp = actx.createBiquadFilter(); lp.type = 'lowpass'; lp.frequency.value = 220; lp.Q.value = 4;
+  const g = actx.createGain(); g.gain.value = 0.35;
+  const o1 = actx.createOscillator(), o2 = actx.createOscillator();
+  o1.type = 'sawtooth'; o2.type = 'sawtooth'; o1.frequency.value = 55; o2.frequency.value = 55.7;
+  const lfo = actx.createOscillator(), lg = actx.createGain();
+  lfo.frequency.value = 0.12; lg.gain.value = 90;
+  lfo.connect(lg); lg.connect(lp.frequency);
+  o1.connect(lp); o2.connect(lp); lp.connect(g); g.connect(master);
+  o1.start(); o2.start(); lfo.start();
+  droneNodes = [o1, o2, lfo];
+}
+function noiseBuf(sec) {
+  const n = Math.floor(actx.sampleRate * sec);
+  const b = actx.createBuffer(1, n, actx.sampleRate);
+  const d = b.getChannelData(0);
+  for (let i = 0; i < n; i++) d[i] = Math.random() * 2 - 1;
+  return b;
+}
+function glitch(len) {
+  if (!soundOn || !actx) return;
+  const dur = len || 0.08, t = actx.currentTime;
+  const src = actx.createBufferSource(); src.buffer = noiseBuf(dur);
+  const bp = actx.createBiquadFilter(); bp.type = 'bandpass'; bp.frequency.value = 800 + Math.random() * 3000; bp.Q.value = 2;
+  const g = actx.createGain(); g.gain.setValueAtTime(0.35, t); g.gain.exponentialRampToValueAtTime(0.001, t + dur);
+  src.connect(bp); bp.connect(g); g.connect(master); src.start(t);
+}
+function tone(freq, dur, type, vol, delay) {
+  if (!soundOn || !actx) return;
+  const t = actx.currentTime + (delay || 0);
+  const o = actx.createOscillator(), g = actx.createGain();
+  o.type = type; o.frequency.value = freq;
+  g.gain.setValueAtTime(vol, t); g.gain.exponentialRampToValueAtTime(0.0001, t + dur);
+  o.connect(g); g.connect(master); o.start(t); o.stop(t + dur + 0.02);
+}
+function tick() { tone(1400 + Math.random() * 600, 0.02, 'square', 0.05); }
+function ok() { tone(660, 0.09, 'square', 0.08); tone(990, 0.12, 'square', 0.08, 0.09); }
+function bad() { tone(110, 0.25, 'sawtooth', 0.12); }
+function boom() {
+  if (!soundOn || !actx) return;
+  const t = actx.currentTime;
+  const o = actx.createOscillator(), g = actx.createGain();
+  o.type = 'sine'; o.frequency.setValueAtTime(80, t); o.frequency.exponentialRampToValueAtTime(30, t + 0.9);
+  g.gain.setValueAtTime(0.7, t); g.gain.exponentialRampToValueAtTime(0.0001, t + 1.1);
+  o.connect(g); g.connect(master); o.start(t); o.stop(t + 1.2);
+}
+
+const bg = document.getElementById('bg'), logo = document.getElementById('logo'),
+      titleEl = document.getElementById('title'), codeEl = document.getElementById('code'),
+      hint = document.getElementById('hint'), landing = document.getElementById('landing'),
+      termview = document.getElementById('termview'),
+      out = document.getElementById('out'), row = document.getElementById('row'),
+      cmd = document.getElementById('cmd'), chips = document.getElementById('chips');
+let busy = false, unlocked = false, entered = false, gen = 0, rainTimer = null, resizeT = null;
+
+function startRain() {
+  const dpr = window.devicePixelRatio || 1;
+  const w = window.innerWidth, h = window.innerHeight;
+  bg.width = w * dpr; bg.height = h * dpr;
+  const ctx = bg.getContext('2d');
+  ctx.scale(dpr, dpr);
+  const fs = 14, cols = Math.floor(w / fs);
+  const drops = Array.from({ length: cols }, () => Math.random() * -30);
+  const chars = 'ABID01{}<>/;=()$#'.split('');
+  ctx.font = fs + 'px "Share Tech Mono", ui-monospace, monospace';
+  const step = () => {
+    ctx.globalCompositeOperation = 'destination-out';
+    ctx.fillStyle = 'rgba(0,0,0,0.16)';
+    ctx.fillRect(0, 0, w, h);
+    ctx.globalCompositeOperation = 'source-over';
+    for (let i = 0; i < cols; i++) {
+      ctx.fillStyle = Math.random() < 0.04 ? '#ff2a2a' : '#00ff66';
+      ctx.fillText(chars[Math.floor(Math.random() * chars.length)], i * fs, drops[i] * fs);
+      if (drops[i] * fs > h && Math.random() > 0.97) drops[i] = 0;
+      drops[i]++;
+    }
+  };
+  if (rainTimer) clearInterval(rainTimer);
+  if (reduced) { for (let k = 0; k < 60; k++) step(); return; }
+  rainTimer = setInterval(step, 60);
+}
+window.addEventListener('resize', () => { clearTimeout(resizeT); resizeT = setTimeout(startRain, 250); });
+
+function glitchArt() {
+  if (entered) return;
+  const tmp = art.slice();
+  const i = Math.floor(Math.random() * tmp.length);
+  tmp[i] = ' '.repeat(1 + Math.floor(Math.random() * 3)) + tmp[i];
+  titleEl.textContent = tmp.join('\n');
+  setTimeout(() => { if (!entered) titleEl.textContent = art.join('\n'); }, 90);
+}
+async function runLanding() {
+  const my = ++gen;
+  logo.style.opacity = '0'; titleEl.textContent = ''; codeEl.textContent = ''; hint.style.visibility = 'hidden';
+  if (reduced) {
+    logo.style.opacity = '1'; titleEl.textContent = art.join('\n');
+    codeEl.textContent = CODE_LINES.join('\n'); hint.style.visibility = 'visible';
+    return;
+  }
+  for (let i = 0; i < 8; i++) { if (gen !== my) return; logo.style.opacity = i % 2 ? '1' : '0.15'; await sleep(90); }
+  logo.style.opacity = '1';
+  const ch = '01#$%&@*<>/';
+  for (let f = 0; f <= 24; f++) {
+    if (gen !== my) return;
+    titleEl.textContent = art.map(l => [...l].map(c => c === ' ' ? ' ' : (Math.random() < f / 24 ? c : ch[Math.floor(Math.random() * ch.length)])).join('')).join('\n');
+    await sleep(55);
+  }
+  for (let i = 0; i < 6; i++) { if (gen !== my) return; titleEl.style.opacity = i % 2 ? '1' : '0.15'; await sleep(90); }
+  titleEl.style.opacity = '1';
+  for (const line of CODE_LINES) {
+    const d = document.createElement('div');
+    codeEl.appendChild(d);
+    for (const c of line) { if (gen !== my) return; d.textContent += c; await sleep(18); }
+    await sleep(150);
+  }
+  hint.style.visibility = 'visible';
+  while (gen === my) {
+    await sleep(2200 + Math.random() * 1500);
+    if (gen !== my) return;
+    glitchArt();
+  }
+}
+setInterval(() => { if (!landing.hidden && hint.style.visibility === 'visible') hint.style.opacity = hint.style.opacity === '0.25' ? '1' : '0.25'; }, 500);
+
+async function typeLine(text, cls, speed) {
+  const d = document.createElement('div');
+  if (cls) d.className = cls;
+  out.appendChild(d);
+  if (reduced) { d.textContent = text; return d; }
+  let i = 0;
+  for (const ch of text) { d.textContent += ch; if (i++ % 2 === 0) tick(); await sleep(speed || 12); }
+  return d;
+}
+function deviceInfo() {
+  const ua = navigator.userAgent || '';
+  let type = 'computer';
+  if (/iPhone/.test(ua)) type = 'iPhone';
+  else if (/iPad/.test(ua) || (/Macintosh/.test(ua) && navigator.maxTouchPoints > 1)) type = 'iPad';
+  else if (/Android/.test(ua)) type = 'Android phone';
+  else if (/Macintosh/.test(ua)) type = 'Mac';
+  else if (/Windows/.test(ua)) type = 'Windows PC';
+  else if (/Linux/.test(ua)) type = 'Linux';
+  const sys = type === 'iPhone' || type === 'iPad' ? 'iOS' : type === 'Android phone' ? 'Android' : type === 'Mac' ? 'macOS' : type === 'Windows PC' ? 'Windows' : type === 'Linux' ? 'Linux' : 'unknown';
+  let tz = '', region = '', now = '';
+  try { tz = Intl.DateTimeFormat().resolvedOptions().timeZone; } catch (e) {}
+  try {
+    const rc = (navigator.language || '').split('-')[1];
+    if (rc) region = new Intl.DisplayNames(['en'], { type: 'region' }).of(rc.toUpperCase());
+  } catch (e) {}
+  const city = tz && tz.indexOf('/') > -1 ? tz.split('/')[1].replace(/_/g, ' ') : '';
+  try { now = new Date().toLocaleString(); } catch (e) {}
+  return [
+    'device   : ' + type,
+    'system   : ' + sys,
+    'screen   : ' + screen.width + 'x' + screen.height,
+    'language : ' + (navigator.language || 'unknown'),
+    'timezone : ' + (tz || 'unknown'),
+    'region   : ' + ([region, city].filter(Boolean).join(' / ') || 'unknown'),
+    'time     : ' + (now || 'unknown'),
+    'name     : hidden by the browser'
+  ];
+}
+function speak(text) {
+  try {
+    const s = window.speechSynthesis;
+    if (!s) return;
+    s.cancel();
+    const u = new SpeechSynthesisUtterance(text);
+    u.pitch = 0.2; u.rate = 0.75; u.volume = 1; u.lang = 'en-US';
+    const v = s.getVoices().find(x => /^en/i.test(x.lang) && /male|david|daniel|alex|fred/i.test(x.name));
+    if (v) u.voice = v;
+    s.speak(u);
+  } catch (e) {}
+}
+async function preboot() {
+  if (reduced) return;
+  await sleep(700);
+  boom();
+  await typeLine('[ SYSTEM BOOT ]', 'dim', 70);
+  await sleep(500);
+  const d = document.createElement('div');
+  out.appendChild(d);
+  const N = 24;
+  for (let p = 0; p <= 100; p += 1 + Math.floor(Math.random() * 4)) {
+    const f = Math.round(p / 100 * N);
+    d.textContent = '[' + '#'.repeat(f) + '.'.repeat(N - f) + '] ' + p + '%';
+    if (p % 3 === 0) tick();
+    if (Math.random() < 0.12) { glitch(0.05); await sleep(220); }
+    await sleep(60);
+  }
+  d.textContent = '[' + '#'.repeat(N) + '] 100%';
+  await sleep(400);
+  await typeLine('ACCESS BREACH', 'red', 90);
+  glitch(0.3);
+  termview.classList.add('shake');
+  for (let i = 0; i < 5; i++) { glitch(0.07); await sleep(120); }
+  termview.classList.remove('shake');
+  await sleep(300);
+  out.textContent = '';
+}
+async function intro() {
+  busy = true; row.style.display = 'none'; out.textContent = '';
+  unlocked = false; chips.hidden = true;
+  await preboot();
+  await typeLine('[!] unauthorized connection detected', 'red');
+  await sleep(reduced ? 0 : 250);
+  await typeLine('[*] scanning device ........ done');
+  for (const l of deviceInfo()) await typeLine(l, null, 14);
+  await sleep(reduced ? 0 : 300);
+  await typeLine('[*] bypassing security ..... done');
+  await sleep(reduced ? 0 : 200);
+  await typeLine('[*] root access granted', 'red');
+  await sleep(reduced ? 0 : 400);
+  boom();
+  await typeLine('WELCOME TO THE ABID SYSTEM', 'red', 40);
+  await typeLine('locked. enter the key command', 'dim');
+  row.style.display = 'flex'; busy = false;
+}
+function addLink(url) {
+  const d = document.createElement('div');
+  const a = document.createElement('a');
+  a.href = url; a.rel = 'noopener noreferrer';
+  a.textContent = '[ tap to open ] ' + url;
+  d.appendChild(a); out.appendChild(d);
+}
+async function run(raw) {
+  let k = raw.trim().toLowerCase().replace(/\s+/g, ' ');
+  if (unlocked && /^\d+$/.test(k)) k = Object.keys(cmds)[Number(k) - 1] || k;
+  const e = document.createElement('div');
+  e.className = 'dim'; e.textContent = 'abid@root:~# ' + raw; out.appendChild(e);
+  if (!k) return;
+  busy = true; row.style.display = 'none';
+  if (!unlocked && k !== 'abid star') { bad(); await typeLine('ACCESS DENIED', 'red'); }
+  else if (k === 'clear') { out.textContent = ''; }
+  else if (k === 'help') {
+    let i = 1;
+    for (const n of Object.keys(cmds)) await typeLine((i++) + '  ' + n, null, 6);
+    await typeLine('clear', null, 6);
+  } else if (cmds[k]) {
+    const c = cmds[k];
+    ok();
+    if (k === 'abid star') { unlocked = true; speak('Welcome boss ABID'); chips.hidden = false; }
+    await typeLine(c.reply);
+    if (k === 'abid star') {
+      let i = 1;
+      for (const n of Object.keys(cmds)) await typeLine((i++) + '  ' + n, null, 6);
+      await typeLine('type a number or the command', 'dim');
+    }
+    if (c.sileo) await typeLine('[demo] Sileo would open and add: ' + c.sileo, 'dim');
+    if (c.web) { await typeLine('link ready:', 'dim'); addLink(c.web); }
+    if (c.device) { for (const l of deviceInfo()) await typeLine(l, null, 8); }
+  } else {
+    bad();
+    await typeLine('command not found', 'red');
+  }
+  row.style.display = 'flex'; busy = false;
+}
+cmd.addEventListener('keydown', ev => {
+  if (ev.key === 'Enter' && !busy) { const v = cmd.value; cmd.value = ''; run(v); }
+});
+
+[...Object.keys(cmds), 'help', 'clear'].forEach((name, idx) => {
+  const b = document.createElement('button');
+  b.type = 'button';
+  b.textContent = (idx < Object.keys(cmds).length ? (idx + 1) + '  ' : '') + name;
+  b.addEventListener('click', () => { if (!busy && row.style.display !== 'none') run(name); });
+  chips.appendChild(b);
+});
+
+function showLanding() {
+  entered = false;
+  termview.hidden = true; landing.hidden = false;
+  bg.classList.remove('dim');
+  runLanding();
+}
+const re = document.createElement('button');
+re.type = 'button'; re.textContent = 'replay intro';
+re.addEventListener('click', () => { if (!busy) showLanding(); });
+chips.appendChild(re);
+function addChip(name) {
+  const b = document.createElement('button');
+  b.type = 'button'; b.textContent = name;
+  b.addEventListener('click', () => { if (!busy && row.style.display !== 'none') run(name); });
+  chips.appendChild(b);
+}
+function chipFor(name) {
+  return [...chips.children].find(b => b.textContent.trim().replace(/^\d+\s+/, '') === name);
+}
+const edPanel = document.getElementById('edit'), elist = document.getElementById('elist'), emsg = document.getElementById('emsg'),
+      ek = document.getElementById('ek'), er = document.getElementById('er'), ew = document.getElementById('ew');
+function renderEdit() {
+  elist.textContent = '';
+  for (const k in customCmds) {
+    const d = document.createElement('div'); d.className = 'er';
+    const s = document.createElement('span'); s.textContent = k;
+    const x = document.createElement('button'); x.type = 'button'; x.textContent = 'delete';
+    x.addEventListener('click', () => {
+      delete customCmds[k]; saveCustom();
+      if (baseCmds[k]) cmds[k] = baseCmds[k]; else { delete cmds[k]; const c = chipFor(k); if (c) c.remove(); }
+      emsg.textContent = 'deleted: ' + k; renderEdit();
+    });
+    d.appendChild(s); d.appendChild(x); elist.appendChild(d);
+  }
+}
+document.getElementById('eadd').addEventListener('click', () => {
+  const k = ek.value.trim().toLowerCase().replace(/\s+/g, ' '), r = er.value.trim();
+  let w = ew.value.trim();
+  if (!k || !r) { emsg.textContent = 'word and reply are needed'; return; }
+  if (w && !/^https?:\/\//i.test(w)) w = 'https://' + w;
+  customCmds[k] = { reply: r, web: w }; saveCustom();
+  cmds[k] = { reply: r }; if (w) cmds[k].web = w;
+  if (!chipFor(k)) addChip(k);
+  ek.value = er.value = ew.value = '';
+  emsg.textContent = 'saved: ' + k; renderEdit();
+});
+const fromAdmin = location.hash === '#edit';
+document.getElementById('eclose').addEventListener('click', () => { if (fromAdmin) location.href = 'abid.html#admin'; else edPanel.classList.remove('on'); });
+if (fromAdmin) { renderEdit(); edPanel.classList.add('on'); }
+const ebtn = document.createElement('button');
+ebtn.type = 'button'; ebtn.textContent = 'edit commands';
+ebtn.addEventListener('click', () => { if (!busy) { renderEdit(); edPanel.classList.add('on'); } });
+chips.appendChild(ebtn);
+
+
+async function enter() {
+  if (entered) return;
+  entered = true; gen++;
+  if (ensureAudio()) {
+    if (actx.resume) actx.resume();
+    soundOn = true;
+    startDrone();
+  }
+  landing.classList.add('shake');
+  if (!reduced) { boom(); for (let i = 0; i < 5; i++) { glitch(0.07); await sleep(110); } }
+  landing.classList.remove('shake');
+  landing.hidden = true; termview.hidden = false;
+  bg.classList.add('dim');
+  intro();
+}
+function onTap() { if (!entered && !landing.hidden) enter(); }
+document.addEventListener('pointerdown', onTap);
+document.addEventListener('keydown', onTap);
+
+startRain();
+runLanding();
+</script>
+
+</body>
+</html>

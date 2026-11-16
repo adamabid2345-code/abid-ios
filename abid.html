@@ -61,6 +61,55 @@ html,body{height:100%;background:var(--bg);color:var(--txt);font-family:ui-monos
 .mid{flex:1;display:flex;align-items:center;justify-content:center}
 #go{font:inherit;font-size:30px;letter-spacing:.3em;padding:26px 54px;background:#14060a;color:var(--hot);border:2px solid var(--red);border-radius:0;box-shadow:0 0 34px #c4122f66,inset 0 0 22px #c4122f44;text-shadow:0 0 14px #ff2a4d;animation:pl 1.8s infinite}
 #go:active{background:var(--red);color:#fff;transform:scale(.96)}
+.col{display:flex;flex-direction:column;align-items:center;gap:16px}
+#tm,#admb,#chb{font:inherit;font-size:16px;letter-spacing:.35em;padding:14px 30px;background:#07030480;color:var(--dim);border:1px solid var(--line);border-radius:0}
+#tm:active,#admb:active,#chb:active{border-color:var(--hot);color:var(--hot)}
+#ig{display:inline-flex;align-items:center;gap:8px;color:var(--dim);border:1px solid var(--line);padding:9px 14px;font-size:12px;letter-spacing:.08em;text-decoration:none;margin-bottom:8px;background:#07030480}
+#ig:active{color:var(--hot);border-color:var(--hot)}
+#lock{position:fixed;inset:0;z-index:100;background:rgba(2,1,2,.96);display:none;align-items:center;justify-content:center;padding:24px}
+#lock .lk{width:100%;max-width:320px;display:flex;flex-direction:column;gap:14px;text-align:center}
+#lock .lt{font-size:34px;letter-spacing:.35em;color:var(--hot);text-shadow:0 0 18px #ff2a4d}
+#pw{background:#000;border:1px solid var(--line);color:var(--txt);font:inherit;font-size:17px;padding:14px;text-align:center;border-radius:0;outline:0;letter-spacing:.2em;-webkit-user-select:text;user-select:text}
+#pw:focus{border-color:var(--red);box-shadow:0 0 20px #c4122f55}
+#pwb{font:inherit;font-size:16px;letter-spacing:.3em;padding:14px;background:#14060a;color:var(--hot);border:2px solid var(--red);border-radius:0}
+#pwb:active{background:var(--red);color:#fff}
+#pwm{min-height:18px;color:var(--hot);font-size:13px}
+#lock.shk .lk{animation:shk .4s}
+@keyframes shk{20%{transform:translateX(-10px)}40%{transform:translateX(10px)}60%{transform:translateX(-6px)}80%{transform:translateX(6px)}}
+#adm{position:fixed;inset:0;z-index:90;background:rgba(2,1,2,.97);display:none;overflow:auto;padding:calc(env(safe-area-inset-top,0px) + 20px) 18px calc(env(safe-area-inset-bottom,0px) + 30px)}
+#adm.on{display:block}
+#adm .ab{max-width:480px;margin:0 auto;display:flex;flex-direction:column;gap:8px}
+#adm h3{color:var(--hot);letter-spacing:.3em;font-size:20px;margin-bottom:6px}
+#adm label{color:var(--dim);font-size:12px;margin-top:6px}
+#adm input{background:#000;border:1px solid var(--line);color:var(--txt);font:inherit;font-size:16px;padding:11px;border-radius:0;outline:0;-webkit-user-select:text;user-select:text}
+#adm input:focus{border-color:var(--red)}
+#adm button{font:inherit;font-size:14px;letter-spacing:.2em;padding:12px;background:#14060a;color:var(--hot);border:1px solid var(--red);border-radius:0}
+#adm button:active{background:var(--red);color:#fff}
+.ar{display:flex;gap:8px;margin-top:10px}.ar button{flex:1}
+#a_msg{color:var(--dim);min-height:18px;font-size:13px}
+#chat{position:fixed;inset:0;z-index:85;background:rgba(2,1,2,.97);display:none;flex-direction:column;padding:calc(env(safe-area-inset-top,0px) + 10px) 14px calc(env(safe-area-inset-bottom,0px) + 10px)}
+#chat.on{display:flex}
+.ch{display:flex;align-items:center;justify-content:space-between;gap:8px;padding-bottom:10px;border-bottom:1px solid var(--line)}
+.ct{color:var(--hot);letter-spacing:.25em;font-size:14px}
+.ch button{font:inherit;font-size:12px;color:var(--dim);background:none;border:1px solid var(--line);padding:7px 10px;border-radius:0}
+#c_status{font-size:11px;color:var(--dim);min-height:16px;padding:4px 0}
+#c_name_box{margin:auto 0;display:none;flex-direction:column;gap:12px;text-align:center}
+#c_name_box.on{display:flex}
+.cn{color:var(--txt);font-size:16px}
+#c_name,#c_msg{background:#000;border:1px solid var(--line);color:var(--txt);font:inherit;font-size:16px;padding:12px;border-radius:0;outline:0;-webkit-user-select:text;user-select:text}
+#c_name:focus,#c_msg:focus{border-color:var(--red)}
+#c_enter,#c_send{font:inherit;font-size:14px;letter-spacing:.2em;padding:12px 16px;background:#14060a;color:var(--hot);border:1px solid var(--red);border-radius:0}
+#c_list{flex:1;overflow:auto;display:none;flex-direction:column;gap:8px;padding:8px 0;-webkit-overflow-scrolling:touch}
+#chat.rdy #c_list{display:flex}
+#c_row{display:none;gap:8px}#c_row.on{display:flex}#c_msg{flex:1;min-width:0}
+.m{max-width:82%;align-self:flex-start;background:#0d0507;border:1px solid var(--line);padding:8px 10px;overflow-wrap:anywhere}
+.m.me{align-self:flex-end;border-color:var(--red);background:#1a0509}
+.m b{display:block;color:var(--hot);font-size:11px;margin-bottom:2px;font-weight:normal}
+.m i{display:block;font-style:normal;color:var(--dim);font-size:10px;margin-top:3px;text-align:right}
+#pwc{font:inherit;font-size:13px;letter-spacing:.2em;padding:10px;background:none;color:var(--dim);border:1px solid var(--line);border-radius:0}
+#lock.on{display:flex}
+#boss{color:#ffd400;font-size:12px;letter-spacing:.2em;text-align:right;margin-top:4px;text-shadow:0 0 10px #ffd40088}
+.m.boss{border-color:#ffd400;background:#1a1500}.m.boss b{color:#ffd400}
 @media (min-width:600px){#grid{grid-template-columns:repeat(5,1fr)}}
 @media (prefers-reduced-motion:reduce){.logo::before,.logo::after,#tap{animation:none}}
 </style></head><body>
@@ -91,11 +140,64 @@ html,body{height:100%;background:var(--bg);color:var(--txt);font-family:ui-monos
 <div class="nt" id="n1"><i>A</i><div><strong>ABID</strong><span>Welcome Abid</span></div></div>
 <div class="nt" id="n2"><i>!</i><div><strong>ABID</strong><span>لازم تحمل تطبيق ضروري باش تكمل. غادي نديوك لـ App Store.</span></div></div></div></div>
 <div id="main">
- <div class="top"><div class="logo" data-t="ABID">ABID</div><div><div id="clock">00:00</div><div id="date"></div></div></div>
- <div class="mid"><button id="go">START</button></div>
- <div class="foot">ABID // DARK OS</div>
+ <div class="top"><div class="logo" data-t="ABID">ABID</div><div><div id="clock">00:00</div><div id="date"></div><div id="boss" hidden>👑 BOSS</div></div></div>
+ <div class="mid"><div class="col"><button id="go">START</button><button id="tm">TERMINAL</button><button id="admb" type="button">ADMIN</button><button id="chb" type="button">GROUP CHAT</button></div></div>
+ <div class="foot"><a id="ig" href="https://www.instagram.com/caponero__/" rel="noopener"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg><span>developer app: ABID</span></a><br>ABID // DARK OS</div>
 </div>
+<div id="adm"><div class="ab"><h3>ADMIN PANEL</h3>
+<label>START button text</label><input id="a_start" autocomplete="off">
+<label>START link (App Store or any link)</label><input id="a_link" autocapitalize="none" autocomplete="off" spellcheck="false">
+<label>Intro message 1</label><input id="a_n1" dir="auto" autocomplete="off">
+<label>Intro message 2</label><input id="a_n2" dir="auto" autocomplete="off">
+<label>Voice greeting (English works best)</label><input id="a_voice" autocomplete="off">
+<label>Instagram username</label><input id="a_ig" autocapitalize="none" autocomplete="off" spellcheck="false">
+<label>Credit text</label><input id="a_igl" autocomplete="off">
+<label>Chat room name (6-64 letters, numbers, - or _; a new name = a new empty room)</label><input id="a_chat" autocapitalize="none" autocomplete="off" spellcheck="false">
+<div class="ar"><button id="a_save" type="button">SAVE</button><button id="a_reset" type="button">RESET</button></div>
+<button id="a_term" type="button">EDIT TERMINAL COMMANDS</button>
+<button id="a_out" type="button">LOG OUT BOSS</button>
+<button id="a_close" type="button">CLOSE</button><div id="a_msg"></div></div></div>
+<div id="chat"><div class="ch"><button id="c_back" type="button">&lt; BACK</button><span class="ct">GROUP CHAT</span><button id="c_rename" type="button">name</button></div>
+<div id="c_status"></div>
+<div id="c_name_box"><div class="cn">choose your name</div><input id="c_name" maxlength="20" placeholder="your name" autocomplete="off"><button id="c_enter" type="button">ENTER</button></div>
+<div id="c_list"></div>
+<div id="c_row"><input id="c_msg" maxlength="500" placeholder="write a message..." autocomplete="off" enterkeyhint="send"><button id="c_send" type="button">SEND</button></div></div>
+<div id="lock"><div class="lk"><div class="lt">ADMIN</div><input id="pw" type="password" placeholder="password" autocomplete="off" autocapitalize="none" autocorrect="off" spellcheck="false"><button id="pwb" type="button">ENTER</button><button id="pwc" type="button">CANCEL</button><div id="pwm"></div></div></div>
 <script>
+const PWH="f84a581357d1fe5d3b9273dc614b155d107555104de9fbc8c47cb087bdaffb0b";
+function sha256(ascii){function r(v,a){return(v>>>a)|(v<<(32-a))}
+var m=Math.pow,mw=m(2,32),i,j,res='',words=[],al=ascii.length*8,hash=sha256.h=sha256.h||[],k=sha256.k=sha256.k||[],pc=k.length,ic={};
+for(var c=2;pc<64;c++){if(!ic[c]){for(i=0;i<313;i+=c)ic[i]=c;hash[pc]=(m(c,.5)*mw)|0;k[pc++]=(m(c,1/3)*mw)|0}}
+ascii+='\x80';while(ascii.length%64-56)ascii+='\x00';
+for(i=0;i<ascii.length;i++){j=ascii.charCodeAt(i);if(j>>8)return'';words[i>>2]|=j<<((3-i)%4)*8}
+words[words.length]=((al/mw)|0);words[words.length]=(al);
+for(j=0;j<words.length;){var w=words.slice(j,j+=16),old=hash;hash=hash.slice(0,8);
+for(i=0;i<64;i++){var w15=w[i-15],w2=w[i-2],a=hash[0],e=hash[4];
+var t1=hash[7]+(r(e,6)^r(e,11)^r(e,25))+((e&hash[5])^((~e)&hash[6]))+k[i]+(w[i]=(i<16)?w[i]:(w[i-16]+(r(w15,7)^r(w15,18)^(w15>>>3))+w[i-7]+(r(w2,17)^r(w2,19)^(w2>>>10)))|0);
+var t2=(r(a,2)^r(a,13)^r(a,22))+((a&hash[1])^(a&hash[2])^(hash[1]&hash[2]));
+hash=[(t1+t2)|0].concat(hash);hash[4]=(hash[4]+t1)|0}
+for(i=0;i<8;i++)hash[i]=(hash[i]+old[i])|0}
+for(i=0;i<8;i++)for(j=3;j+1;j--){var b=(hash[i]>>(j*8))&255;res+=((b<16)?0:'')+b.toString(16)}
+return res}
+
+(function(){
+ const lock=document.getElementById('lock');
+ const pw=document.getElementById('pw'),msg=document.getElementById('pwm');let wrong=0,until=0;
+ window.askAdmin=function(){pw.value='';msg.textContent='';lock.classList.add('on');setTimeout(()=>pw.focus(),60)};
+ function tryLogin(){
+  const now=Date.now();
+  if(now<until){msg.textContent='wait '+Math.ceil((until-now)/1000)+'s';return}
+  if(sha256(pw.value)===PWH){pw.value='';lock.classList.remove('on');try{localStorage.setItem('abid_owner','1')}catch(e){}showBoss();openAdmin();return}
+  wrong++;pw.value='';msg.textContent='ACCESS DENIED';
+  try{navigator.vibrate&&navigator.vibrate([60,40,60])}catch(e){}
+  lock.classList.add('shk');setTimeout(()=>lock.classList.remove('shk'),400);
+  if(wrong>=3){until=Date.now()+15000;wrong=0;msg.textContent='ACCESS DENIED - wait 15s'}
+ }
+ document.getElementById('pwb').addEventListener('click',tryLogin);
+ document.getElementById('pwc').addEventListener('click',()=>{pw.value='';lock.classList.remove('on')});
+ pw.addEventListener('keydown',e=>{if(e.key==='Enter')tryLogin()});
+})();
+
 // ---- PWA: icon + manifest generated at runtime ----
 (function(){
  const c=document.createElement('canvas');c.width=c.height=512;const x=c.getContext('2d');
@@ -126,13 +228,14 @@ const VPN='itms-apps://apps.apple.com/es/app/id1423538627';
 const boot=document.getElementById('boot'),main=document.getElementById('main'),tap=document.getElementById('tap');let started=false,done=false;
 const lines=['[ 0.001 ] initializing ABID kernel…','[ 0.214 ] mounting encrypted volumes…','[ 0.530 ] bypassing firewall… <ok>','[ 0.871 ] loading shadow modules… <ok>','[ 1.204 ] indexing installed apps…','[ 1.690 ] user authenticated: boss Abid <ok>','','>> THE BEAST IS AWAKE'];
 function finish(){if(done)return;done=true;buzz([40,60,120]);boot.style.transition='opacity .8s';boot.style.opacity=0;setTimeout(()=>boot.remove(),800);main.classList.add('on');}
+if(location.hash==='#home'||location.hash==='#admin'){started=true;finish()}
 boot.addEventListener('click',async()=>{
  if(started){finish();return}
  started=true;tap.remove();
  document.getElementById('ap').classList.add('on');speak('Abid.');buzz([80,40,80,40,250]);
  await new Promise(r=>setTimeout(r,6200));
  document.getElementById('ap').remove();if(done)return;
- speak('Welcome back, boss Abid. The beast is awake.');
+ speak(CFG.voice);
  for(const l of lines){if(done)return;const d=document.createElement('div');d.className='l';boot.appendChild(d);
   const ok=l.includes('<ok>'),t=l.replace(' <ok>','');
   for(const ch of t){if(done)return;d.textContent+=ch;await new Promise(r=>setTimeout(r,14))}
@@ -140,7 +243,150 @@ boot.addEventListener('click',async()=>{
   await new Promise(r=>setTimeout(r,170))}
  setTimeout(finish,900)});
 
-document.getElementById('go').addEventListener('click',()=>{buzz([40,40,120]);location.href=VPN});
+document.getElementById('tm').addEventListener('click',()=>{buzz(40);location.href='terminal.html'});
+document.getElementById('go').addEventListener('click',()=>{buzz([40,40,120]);location.href=CFG.link});
+
+// ---- admin panel ----
+const TERM='terminal.html';
+const DEF={start:'START',link:'itms-apps://apps.apple.com/es/app/id1423538627',n1:'Welcome Abid',n2:'لازم تحمل تطبيق ضروري باش تكمل. غادي نديوك لـ App Store.',voice:'Welcome back, boss Abid. The beast is awake.',ig:'caponero__',igLabel:'developer app: ABID',chat:'abid-278daee7ef1ed566'};
+let CFG=Object.assign({},DEF);
+try{Object.assign(CFG,JSON.parse(localStorage.getItem('abid_cfg')||'{}'))}catch(e){}
+function igHandle(v){return String(v||'').replace(/^@/,'').replace(/[^A-Za-z0-9._]/g,'')||DEF.ig}
+function applyCfg(){
+ const g=document.getElementById('go');if(g)g.textContent=CFG.start;
+ const ig=document.getElementById('ig');
+ if(ig){ig.href='https://www.instagram.com/'+igHandle(CFG.ig)+'/';const sp=ig.querySelector('span');if(sp)sp.textContent=CFG.igLabel}
+ const s1=document.querySelector('#n1 span'),s2=document.querySelector('#n2 span');
+ if(s1)s1.textContent=CFG.n1;if(s2)s2.textContent=CFG.n2}
+const adm=document.getElementById('adm'),am=document.getElementById('a_msg');
+const F={start:'a_start',link:'a_link',n1:'a_n1',n2:'a_n2',voice:'a_voice',ig:'a_ig',igLabel:'a_igl',chat:'a_chat'};
+function fillAdmin(){for(const k in F)document.getElementById(F[k]).value=CFG[k];am.textContent=''}
+function openAdmin(){fillAdmin();adm.classList.add('on')}
+document.getElementById('admb').addEventListener('click',()=>window.askAdmin());
+document.getElementById('a_close').addEventListener('click',()=>adm.classList.remove('on'));
+document.getElementById('a_term').addEventListener('click',()=>{location.href=TERM+'#edit'});
+document.getElementById('a_save').addEventListener('click',()=>{
+ const n={};for(const k in F)n[k]=document.getElementById(F[k]).value.trim();
+ if(!n.start)n.start=DEF.start;
+ if(/^\s*(javascript|data|vbscript):/i.test(n.link)){am.textContent='that link is not allowed';return}
+ if(!n.link)n.link=DEF.link;else if(!/^[a-z][a-z0-9+.-]*:/i.test(n.link))n.link='https://'+n.link;
+ if(!n.chat)n.chat=DEF.chat;if(!/^[A-Za-z0-9_-]{6,64}$/.test(n.chat)){am.textContent='chat room: 6-64 letters, numbers, - or _';return}
+ if(!n.voice)n.voice=DEF.voice;if(!n.ig)n.ig=DEF.ig;
+ CFG=Object.assign({},DEF,n,{v:Date.now()});
+ try{localStorage.setItem('abid_cfg',JSON.stringify(CFG))}catch(e){am.textContent='could not save on this device';return}
+ applyCfg();am.textContent='sending to everyone...';pushCfg()});
+document.getElementById('a_reset').addEventListener('click',()=>{
+ CFG=Object.assign({},DEF,{v:Date.now()});try{localStorage.setItem('abid_cfg',JSON.stringify(CFG))}catch(e){}
+ fillAdmin();applyCfg();am.textContent='sending defaults to everyone...';pushCfg()});
+document.getElementById('a_out').addEventListener('click',()=>{try{localStorage.removeItem('abid_owner')}catch(e){}showBoss();am.textContent='boss mode off on this phone'});
+applyCfg();
+if(location.hash==='#admin')openAdmin();
+
+// ---- shared settings (public ntfy.sh relay) ----
+const CFG_TOPIC='abid-cfg-931359092f190b4c';
+function mineOwner(){try{return localStorage.getItem('abid_owner')==='1'}catch(e){return false}}
+function showBoss(){const b=document.getElementById('boss');if(b)b.hidden=!mineOwner()}
+function cleanCfg(o){
+ if(!o||typeof o!=='object')return null;
+ const out={},lim={start:40,link:300,n1:160,n2:240,voice:240,ig:40,igLabel:60,chat:64};
+ for(const k in lim){if(typeof o[k]==='string'){const v=o[k].trim().slice(0,lim[k]);if(v)out[k]=v}}
+ if(out.link&&!/^(https?|itms-apps):/i.test(out.link))delete out.link;
+ if(out.chat&&!/^[A-Za-z0-9_-]{6,64}$/.test(out.chat))delete out.chat;
+ out.v=Number(o.v)||0;return out}
+function adoptCfg(c){
+ if(!c||c.v<=(CFG.v||0))return false;
+ CFG=Object.assign({},DEF,c);
+ try{localStorage.setItem('abid_cfg',JSON.stringify(CFG))}catch(e){}
+ applyCfg();return true}
+async function fetchCfg(){
+ try{
+  const r=await fetch('https://ntfy.sh/'+CFG_TOPIC+'/json?poll=1&since=12h');
+  if(!r.ok)return null;
+  const txt=await r.text();let last=null;
+  txt.split('\n').forEach(l=>{
+   if(!l.trim())return;
+   try{const m=JSON.parse(l);
+    if(m.event==='message'&&Array.isArray(m.tags)&&m.tags.indexOf('cfg')>=0){
+     const c=cleanCfg(JSON.parse(m.message));if(c&&(!last||c.v>last.v))last=c}}catch(e){}});
+  return last}catch(e){return null}}
+async function pushCfg(){
+ try{
+  const r=await fetch('https://ntfy.sh/'+CFG_TOPIC+'?tags=cfg',{method:'POST',headers:{'Content-Type':'text/plain;charset=UTF-8'},body:JSON.stringify(CFG)});
+  if(!r.ok)throw new Error('http');
+  am.textContent='saved - sent to everyone'}
+ catch(e){am.textContent='saved on this phone only (no internet)'}}
+async function syncCfg(){
+ const r=await fetchCfg();
+ if(r){adoptCfg(r);if(mineOwner()&&r.v<(CFG.v||0))pushCfg()}
+ else if(mineOwner()&&CFG.v)pushCfg()}
+showBoss();syncCfg();
+setInterval(()=>{if(!document.hidden)syncCfg()},90000);
+
+// ---- group chat (public ntfy.sh relay) ----
+(function(){
+ const chatEl=document.getElementById('chat'),list=document.getElementById('c_list'),st=document.getElementById('c_status'),
+       nameBox=document.getElementById('c_name_box'),row=document.getElementById('c_row'),
+       nameIn=document.getElementById('c_name'),msgIn=document.getElementById('c_msg');
+ let name='',cid='',es=null,lastId='',seen=new Set(),timer=null,retry=0,curTopic='';
+ try{name=localStorage.getItem('abid_chat_name')||'';cid=localStorage.getItem('abid_chat_id')||''}catch(e){}
+ if(!cid){cid='u'+Math.random().toString(36).slice(2,10);try{localStorage.setItem('abid_chat_id',cid)}catch(e){}}
+ function myName(){return mineOwner()?'BOSS':name}
+ function status(t){st.textContent=t}
+ function state(){const has=!!myName();document.getElementById('c_rename').style.display=mineOwner()?'none':'';nameBox.classList.toggle('on',!has);row.classList.toggle('on',has);chatEl.classList.toggle('rdy',has)}
+ function fmt(ts){try{return new Date(ts*1000).toLocaleTimeString([], {hour:'2-digit',minute:'2-digit'})}catch(e){return ''}}
+ function addMsg(m){
+  if(!m||m.event!=='message'||seen.has(m.id))return;
+  seen.add(m.id);lastId=m.id;
+  const mine=Array.isArray(m.tags)&&m.tags.indexOf(cid)>=0;const boss=Array.isArray(m.tags)&&m.tags.indexOf('boss')>=0;
+  const d=document.createElement('div');d.className='m'+(mine?' me':'')+(boss?' boss':'');
+  const b=document.createElement('b');b.textContent=boss?'👑 BOSS':(m.title||'anon');
+  const t=document.createElement('span');t.textContent=m.message||'';t.dir='auto';
+  const i=document.createElement('i');i.textContent=fmt(m.time);
+  d.appendChild(b);d.appendChild(t);d.appendChild(i);
+  const near=list.scrollHeight-list.scrollTop-list.clientHeight<80;
+  list.appendChild(d);
+  while(list.children.length>200)list.removeChild(list.firstChild);
+  if(mine||near)list.scrollTop=list.scrollHeight;
+ }
+ function disconnect(){clearTimeout(timer);if(es){try{es.close()}catch(e){}es=null}}
+ function connect(){
+  disconnect();
+  if(curTopic!==CFG.chat){curTopic=CFG.chat;list.textContent='';seen=new Set();lastId=''}
+  status('connecting...');
+  try{es=new EventSource('https://ntfy.sh/'+encodeURIComponent(curTopic)+'/sse?since='+(lastId||'12h'))}catch(e){status('chat not available');return}
+  es.onopen=()=>{retry=0;status('online')};
+  es.onmessage=e=>{try{addMsg(JSON.parse(e.data))}catch(x){}};
+  es.onerror=()=>{
+   status('reconnecting...');
+   try{es.close()}catch(x){}es=null;
+   retry=Math.min(retry+1,6);clearTimeout(timer);
+   timer=setTimeout(()=>{if(chatEl.classList.contains('on'))connect()},2000*retry);
+  };
+ }
+ async function send(){
+  const nm=myName(),v=msgIn.value.trim();if(!v||!nm)return;
+  msgIn.value='';
+  try{
+   const r=await fetch('https://ntfy.sh/'+encodeURIComponent(CFG.chat)+'?title='+encodeURIComponent(nm)+'&tags='+encodeURIComponent(mineOwner()?cid+',boss':cid),
+     {method:'POST',headers:{'Content-Type':'text/plain;charset=UTF-8'},body:v.slice(0,500)});
+   if(!r.ok)throw new Error('http');
+  }catch(e){msgIn.value=v;status('could not send - check your internet')}
+ }
+ function openChat(){chatEl.classList.add('on');nameIn.value=name;state();if(myName())connect();else setTimeout(()=>nameIn.focus(),60)}
+ function setName(){
+  const n=nameIn.value.trim().slice(0,20);if(!n)return;
+  if(/^\s*boss\s*$/i.test(n)){status('that name is reserved');return}
+  name=n;try{localStorage.setItem('abid_chat_name',name)}catch(e){}
+  state();connect();setTimeout(()=>msgIn.focus(),60);
+ }
+ document.getElementById('chb').addEventListener('click',openChat);
+ document.getElementById('c_back').addEventListener('click',()=>{chatEl.classList.remove('on');disconnect()});
+ document.getElementById('c_rename').addEventListener('click',()=>{name='';nameIn.value='';state();setTimeout(()=>nameIn.focus(),60)});
+ document.getElementById('c_enter').addEventListener('click',setName);
+ nameIn.addEventListener('keydown',e=>{if(e.key==='Enter')setName()});
+ document.getElementById('c_send').addEventListener('click',send);
+ msgIn.addEventListener('keydown',e=>{if(e.key==='Enter')send()});
+})();
 
 // ---- clock ----
 setInterval(()=>{const d=new Date();document.getElementById('clock').textContent=d.toLocaleTimeString([], {hour:'2-digit',minute:'2-digit'});
