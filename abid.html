@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Abid">
+<meta name="theme-color" content="#050203">
+<title>Abid</title>
+<style>
+:root{--bg:#050203;--panel:#0d0507;--line:#3a0a14;--red:#c4122f;--hot:#ff2a4d;--dim:#8a6a70;--txt:#e8d8da;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+html,body{height:100%;background:var(--bg);color:var(--txt);font-family:ui-monospace,Menlo,Consolas,monospace;overflow:hidden;-webkit-user-select:none;user-select:none}
+#rain{position:fixed;inset:0;opacity:.3;z-index:0}
+.vig{position:fixed;inset:0;z-index:1;pointer-events:none;background:radial-gradient(ellipse at center,transparent 35%,#000 100%),repeating-linear-gradient(0deg,rgba(0,0,0,.2) 0 1px,transparent 1px 3px)}
+#boot{position:fixed;inset:0;z-index:50;background:#000;display:flex;flex-direction:column;justify-content:center;padding:0 7%;font-size:13px;color:var(--red);gap:3px}
+#boot .l{white-space:pre-wrap}.ok{color:var(--hot)}
+#tap{position:absolute;bottom:calc(40px + env(safe-area-inset-bottom,0px));left:0;right:0;text-align:center;color:var(--hot);font-size:15px;animation:bl 1.4s infinite}
+@keyframes bl{50%{opacity:.25}}
+#main{position:fixed;inset:0;z-index:5;display:flex;flex-direction:column;padding:calc(env(safe-area-inset-top,0px) + 18px) 18px calc(env(safe-area-inset-bottom,0px) + 14px);opacity:0;transition:opacity 1.2s}
+#main.on{opacity:1}
+.top{display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:14px}
+.logo{font-size:40px;font-weight:700;letter-spacing:.08em;color:var(--hot);text-shadow:0 0 20px #ff2a4d88;position:relative}
+.logo::before,.logo::after{content:attr(data-t);position:absolute;left:0;top:0}
+.logo::before{color:#fff;mix-blend-mode:screen;clip-path:inset(0 0 60% 0);animation:g1 4s infinite steps(1)}
+.logo::after{color:#2affe6;mix-blend-mode:screen;clip-path:inset(60% 0 0 0);animation:g2 4s infinite steps(1)}
+@keyframes g1{0%,92%,100%{transform:none}93%{transform:translate(-4px,0)}96%{transform:translate(3px,1px)}}
+@keyframes g2{0%,90%,100%{transform:none}91%{transform:translate(4px,0)}95%{transform:translate(-3px,-1px)}}
+#clock{font-size:22px;text-align:right}#date{font-size:11px;color:var(--dim);text-align:right}
+#q{width:100%;background:var(--panel);border:1px solid var(--line);color:var(--txt);font:inherit;font-size:16px;padding:13px 14px;outline:0;border-radius:0;-webkit-user-select:text;user-select:text}
+#q:focus{border-color:var(--red);box-shadow:0 0 22px #c4122f44}
+#grid{margin-top:14px;flex:1;overflow:auto;display:grid;grid-template-columns:repeat(3,1fr);gap:10px;align-content:start;-webkit-overflow-scrolling:touch}
+.c{border:1px solid var(--line);background:var(--panel);padding:16px 4px 12px;text-align:center;font-size:12px;position:relative}
+.c:active{border-color:var(--hot);background:#1a0509;transform:scale(.96)}
+.c .i{width:46px;height:46px;margin:0 auto 9px;display:flex;align-items:center;justify-content:center;font-size:22px;font-weight:700;color:var(--hot);border:1px solid var(--red);box-shadow:inset 0 0 14px #c4122f44}
+.c .n{display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;padding:0 4px}
+.c .x{position:absolute;top:2px;right:6px;color:var(--dim);font-size:14px;padding:4px}
+.add{border-style:dashed;color:var(--dim)}
+.foot{font-size:10px;color:var(--dim);text-align:center;margin-top:8px}
+#dlg{position:fixed;inset:0;z-index:40;background:#000c;display:none;align-items:center;justify-content:center;padding:24px}
+#dlg.on{display:flex}
+#dlg div{background:var(--panel);border:1px solid var(--red);padding:18px;width:100%;max-width:360px;display:flex;flex-direction:column;gap:10px}
+#dlg input{background:#000;border:1px solid var(--line);color:var(--txt);font:inherit;font-size:16px;padding:11px;border-radius:0;outline:0;-webkit-user-select:text;user-select:text}
+#dlg small{color:var(--dim);font-size:11px;line-height:1.5}
+#dlg button{background:var(--red);border:0;color:#fff;font:inherit;padding:12px}#dlg button.g{background:none;color:var(--dim)}
+#ap{position:absolute;inset:0;display:none;flex-direction:column;align-items:center;justify-content:center;background:radial-gradient(circle at 50% 45%,#3a0510 0%,#000 70%)}
+#ap.on{display:flex;animation:flick 6.2s forwards}
+#ap svg{width:70vw;max-width:300px;filter:drop-shadow(0 0 28px #ff2a4d99)}
+#ap b{margin-top:18px;font-size:34px;letter-spacing:.35em;color:var(--hot);text-shadow:0 0 18px #ff2a4d}
+.tear{fill:#c4122f;animation:fall 1.5s infinite ease-in}
+.tear.b{animation-delay:.7s}
+@keyframes fall{0%{transform:translateY(0);opacity:0}15%{opacity:1}100%{transform:translateY(70px);opacity:0}}
+@keyframes flick{0%{opacity:0}6%{opacity:1}9%{opacity:.2}12%,90%{opacity:1}100%{opacity:0}}
+.pulse{animation:pl 1.6s infinite}@keyframes pl{50%{transform:scale(1.03)}}
+.sw{background:none;border:1px solid var(--line);color:var(--dim);font:inherit;font-size:11px;padding:6px 10px;margin-top:6px}
+.nt{position:absolute;top:calc(env(safe-area-inset-top,0px) + 14px);left:14px;right:14px;display:flex;gap:12px;align-items:center;background:#1a0a0df2;border:1px solid var(--red);padding:12px 14px;transform:translateY(-160%);box-shadow:0 6px 30px #c4122f66;z-index:3}
+.nt i{font-style:normal;width:34px;height:34px;flex:none;display:flex;align-items:center;justify-content:center;background:var(--red);color:#fff;font-weight:700}
+.nt strong{display:block;color:var(--hot);font-size:13px;margin-bottom:2px}.nt span{font-size:13px;color:var(--txt);line-height:1.4}
+#n1{animation:nt 2.2s 1.3s forwards}#n2{animation:nt 2.6s 3.5s forwards}
+@keyframes nt{0%{transform:translateY(-160%)}14%,86%{transform:translateY(0)}100%{transform:translateY(-160%)}}
+.mid{flex:1;display:flex;align-items:center;justify-content:center}
+#go{font:inherit;font-size:30px;letter-spacing:.3em;padding:26px 54px;background:#14060a;color:var(--hot);border:2px solid var(--red);border-radius:0;box-shadow:0 0 34px #c4122f66,inset 0 0 22px #c4122f44;text-shadow:0 0 14px #ff2a4d;animation:pl 1.8s infinite}
+#go:active{background:var(--red);color:#fff;transform:scale(.96)}
+@media (min-width:600px){#grid{grid-template-columns:repeat(5,1fr)}}
+@media (prefers-reduced-motion:reduce){.logo::before,.logo::after,#tap{animation:none}}
+</style></head><body>
+<canvas id="rain"></canvas><div class="vig"></div>
+<div id="boot"><div id="tap">tap to enter</div><div id="ap"><svg viewBox="0 0 260 300" class="pulse">
+<defs><radialGradient id="ag" cx="40%" cy="35%" r="75%"><stop offset="0" stop-color="#ff2a4d"/><stop offset=".55" stop-color="#9c0c24"/><stop offset="1" stop-color="#3a0510"/></radialGradient>
+<mask id="bite"><rect width="200" height="230" fill="#fff"/><circle cx="186" cy="92" r="27" fill="#000"/></mask></defs>
+<path d="M20 300 C20 200 70 150 130 150 C190 150 240 200 240 300Z" fill="#0a0305" stroke="#3a0a14" stroke-width="2"/>
+<path d="M130 6 C88 6 66 48 66 92 L66 160 L194 160 L194 92 C194 48 172 6 130 6Z" fill="#0a0305" stroke="#3a0a14" stroke-width="2"/>
+<ellipse cx="130" cy="84" rx="38" ry="36" fill="#000"/>
+<ellipse cx="116" cy="80" rx="7" ry="4" fill="#ff2a4d"/><ellipse cx="144" cy="80" rx="7" ry="4" fill="#ff2a4d"/>
+<g fill="#0a0305" stroke="#3a0a14" stroke-width="2"><ellipse cx="52" cy="180" rx="14" ry="20"/><ellipse cx="208" cy="180" rx="14" ry="20"/></g>
+<g transform="translate(30 70) scale(1)" mask="url(#bite)"></g>
+<g transform="translate(40 76) scale(.9)">
+<g mask="url(#bite)">
+<path d="M100 62 C70 40 20 55 20 118 C20 172 60 212 85 207 C95 204 105 204 115 207 C140 212 180 172 180 118 C180 55 130 40 100 62Z" fill="url(#ag)" stroke="#000" stroke-width="3"/>
+</g>
+<path d="M100 62 C100 42 108 27 126 18 C129 40 118 54 100 62Z" fill="#2a0a0f" stroke="#000" stroke-width="2"/>
+<ellipse cx="70" cy="118" rx="14" ry="17" fill="#f3e6e8"/><ellipse cx="130" cy="118" rx="14" ry="17" fill="#f3e6e8"/>
+<circle cx="70" cy="124" r="7" fill="#000"/><circle cx="130" cy="124" r="7" fill="#000"/>
+<path d="M52 98 L86 108" stroke="#000" stroke-width="5" stroke-linecap="round"/><path d="M148 98 L114 108" stroke="#000" stroke-width="5" stroke-linecap="round"/>
+<path d="M76 172 Q100 150 124 172" stroke="#000" stroke-width="5" fill="none" stroke-linecap="round"/>
+<path class="tear" d="M70 138 q-6 12 0 16 q6 -4 0 -16z"/><path class="tear b" d="M130 138 q-6 12 0 16 q6 -4 0 -16z"/>
+<path class="tear b" d="M64 140 q-5 10 0 14 q5 -4 0 -14z"/><path class="tear" d="M136 140 q-5 10 0 14 q5 -4 0 -14z"/>
+</g>
+<g fill="#0a0305" stroke="#3a0a14" stroke-width="2"><path d="M44 168 q-8 10 -2 24 q8 6 14 -2 l2 -22z"/><path d="M216 168 q8 10 2 24 q-8 6 -14 -2 l-2 -22z"/></g>
+</svg><b>ABID</b>
+<div class="nt" id="n1"><i>A</i><div><strong>ABID</strong><span>Welcome Abid</span></div></div>
+<div class="nt" id="n2"><i>!</i><div><strong>ABID</strong><span>لازم تحمل تطبيق ضروري باش تكمل. غادي نديوك لـ App Store.</span></div></div></div></div>
+<div id="main">
+ <div class="top"><div class="logo" data-t="ABID">ABID</div><div><div id="clock">00:00</div><div id="date"></div></div></div>
+ <div class="mid"><button id="go">START</button></div>
+ <div class="foot">ABID // DARK OS</div>
+</div>
+<script>
+// ---- PWA: icon + manifest generated at runtime ----
+(function(){
+ const c=document.createElement('canvas');c.width=c.height=512;const x=c.getContext('2d');
+ x.fillStyle='#050203';x.fillRect(0,0,512,512);
+ const g=x.createRadialGradient(256,256,20,256,256,300);g.addColorStop(0,'#5a0716');g.addColorStop(1,'#050203');x.fillStyle=g;x.fillRect(0,0,512,512);
+ x.strokeStyle='#c4122f';x.lineWidth=10;x.strokeRect(36,36,440,440);
+ x.fillStyle='#ff2a4d';x.font='bold 300px monospace';x.textAlign='center';x.textBaseline='middle';x.shadowColor='#ff2a4d';x.shadowBlur=40;x.fillText('A',256,276);
+ const url=c.toDataURL('image/png');
+ const l=document.createElement('link');l.rel='apple-touch-icon';l.href=url;document.head.appendChild(l);
+ const f=document.createElement('link');f.rel='icon';f.href=url;document.head.appendChild(f);
+ try{const m={name:'Abid',short_name:'Abid',display:'standalone',background_color:'#050203',theme_color:'#050203',icons:[{src:url,sizes:'512x512',type:'image/png'}]};
+  const ml=document.createElement('link');ml.rel='manifest';ml.href=URL.createObjectURL(new Blob([JSON.stringify(m)],{type:'application/json'}));document.head.appendChild(ml)}catch(e){}
+})();
+
+// ---- matrix rain ----
+const cv=document.getElementById('rain'),cx=cv.getContext('2d');let cols,drops;
+function size(){cv.width=innerWidth;cv.height=innerHeight;cols=Math.floor(cv.width/14);drops=Array(cols).fill(0).map(()=>Math.random()*-50)}
+size();addEventListener('resize',size);
+setInterval(()=>{cx.fillStyle='rgba(5,2,3,.12)';cx.fillRect(0,0,cv.width,cv.height);cx.fillStyle='#c4122f';cx.font='12px monospace';
+ drops.forEach((y,i)=>{cx.fillText(String.fromCharCode(0x30A0+Math.random()*96),i*14,y*14);drops[i]=y*14>cv.height&&Math.random()>.975?0:y+1})},70);
+
+// ---- voice + haptics ----
+function speak(t){try{const u=new SpeechSynthesisUtterance(t);u.pitch=0.1;u.rate=0.78;speechSynthesis.cancel();speechSynthesis.speak(u)}catch(e){}}
+function buzz(p){try{navigator.vibrate&&navigator.vibrate(p)}catch(e){}}
+
+// ---- boot (tap needed so iOS allows sound) ----
+const VPN='itms-apps://apps.apple.com/es/app/id1423538627';
+const boot=document.getElementById('boot'),main=document.getElementById('main'),tap=document.getElementById('tap');let started=false,done=false;
+const lines=['[ 0.001 ] initializing ABID kernel…','[ 0.214 ] mounting encrypted volumes…','[ 0.530 ] bypassing firewall… <ok>','[ 0.871 ] loading shadow modules… <ok>','[ 1.204 ] indexing installed apps…','[ 1.690 ] user authenticated: boss Abid <ok>','','>> THE BEAST IS AWAKE'];
+function finish(){if(done)return;done=true;buzz([40,60,120]);boot.style.transition='opacity .8s';boot.style.opacity=0;setTimeout(()=>boot.remove(),800);main.classList.add('on');}
+boot.addEventListener('click',async()=>{
+ if(started){finish();return}
+ started=true;tap.remove();
+ document.getElementById('ap').classList.add('on');speak('Abid.');buzz([80,40,80,40,250]);
+ await new Promise(r=>setTimeout(r,6200));
+ document.getElementById('ap').remove();if(done)return;
+ speak('Welcome back, boss Abid. The beast is awake.');
+ for(const l of lines){if(done)return;const d=document.createElement('div');d.className='l';boot.appendChild(d);
+  const ok=l.includes('<ok>'),t=l.replace(' <ok>','');
+  for(const ch of t){if(done)return;d.textContent+=ch;await new Promise(r=>setTimeout(r,14))}
+  if(ok){const s=document.createElement('span');s.className='ok';s.textContent='  [ OK ]';d.appendChild(s);buzz(15)}
+  await new Promise(r=>setTimeout(r,170))}
+ setTimeout(finish,900)});
+
+document.getElementById('go').addEventListener('click',()=>{buzz([40,40,120]);location.href=VPN});
+
+// ---- clock ----
+setInterval(()=>{const d=new Date();document.getElementById('clock').textContent=d.toLocaleTimeString([], {hour:'2-digit',minute:'2-digit'});
+ document.getElementById('date').textContent=d.toLocaleDateString([], {weekday:'short',day:'numeric',month:'short'})},1000);
+</script></body></html>
