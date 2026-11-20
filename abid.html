@@ -62,8 +62,8 @@ html,body{height:100%;background:var(--bg);color:var(--txt);font-family:ui-monos
 #go{font:inherit;font-size:30px;letter-spacing:.3em;padding:26px 54px;background:#14060a;color:var(--hot);border:2px solid var(--red);border-radius:0;box-shadow:0 0 34px #c4122f66,inset 0 0 22px #c4122f44;text-shadow:0 0 14px #ff2a4d;animation:pl 1.8s infinite}
 #go:active{background:var(--red);color:#fff;transform:scale(.96)}
 .col{display:flex;flex-direction:column;align-items:center;gap:16px}
-#tm,#admb,#chb{font:inherit;font-size:16px;letter-spacing:.35em;padding:14px 30px;background:#07030480;color:var(--dim);border:1px solid var(--line);border-radius:0}
-#tm:active,#admb:active,#chb:active{border-color:var(--hot);color:var(--hot)}
+#tm,#admb,#chb,#aib{font:inherit;font-size:16px;letter-spacing:.35em;padding:14px 30px;background:#07030480;color:var(--dim);border:1px solid var(--line);border-radius:0}
+#tm:active,#admb:active,#chb:active,#aib:active{border-color:var(--hot);color:var(--hot)}
 #ig{display:inline-flex;align-items:center;gap:8px;color:var(--dim);border:1px solid var(--line);padding:9px 14px;font-size:12px;letter-spacing:.08em;text-decoration:none;margin-bottom:8px;background:#07030480}
 #ig:active{color:var(--hot);border-color:var(--hot)}
 #lock{position:fixed;inset:0;z-index:100;background:rgba(2,1,2,.96);display:none;align-items:center;justify-content:center;padding:24px}
@@ -106,10 +106,69 @@ html,body{height:100%;background:var(--bg);color:var(--txt);font-family:ui-monos
 .m.me{align-self:flex-end;border-color:var(--red);background:#1a0509}
 .m b{display:block;color:var(--hot);font-size:11px;margin-bottom:2px;font-weight:normal}
 .m i{display:block;font-style:normal;color:var(--dim);font-size:10px;margin-top:3px;text-align:right}
+#c_online{font-size:11px;color:var(--dim);padding:0 0 4px}
 #pwc{font:inherit;font-size:13px;letter-spacing:.2em;padding:10px;background:none;color:var(--dim);border:1px solid var(--line);border-radius:0}
 #lock.on{display:flex}
 #boss{color:#ffd400;font-size:12px;letter-spacing:.2em;text-align:right;margin-top:4px;text-shadow:0 0 10px #ffd40088}
 .m.boss{border-color:#ffd400;background:#1a1500}.m.boss b{color:#ffd400}
+#ai{position:fixed;inset:0;z-index:84;background:rgba(2,1,2,.97);display:none;flex-direction:column;padding:calc(env(safe-area-inset-top,0px) + 10px) 14px calc(env(safe-area-inset-bottom,0px) + 10px)}
+#ai.on{display:flex}
+#ai .ah{display:flex;align-items:center;justify-content:space-between;gap:8px;padding-bottom:8px;border-bottom:1px solid var(--line)}
+#ai .ah button,.ac button{font:inherit;font-size:12px;color:var(--dim);background:none;border:1px solid var(--line);padding:7px 10px;border-radius:0}
+#ai .at{color:var(--hot);letter-spacing:.25em;font-size:14px}
+#ai_sub{font-size:11px;color:var(--dim);padding:6px 0;line-height:1.5}
+.ac{display:flex;gap:6px;overflow-x:auto;padding:4px 0 8px;-webkit-overflow-scrolling:touch}
+.ac button{white-space:nowrap;flex:none}
+#ai_list{flex:1;overflow:auto;display:flex;flex-direction:column;gap:8px;padding:6px 0;-webkit-overflow-scrolling:touch}
+.am{max-width:88%;padding:9px 11px;overflow-wrap:anywhere;line-height:1.5;font-size:14px;border:1px solid var(--line);background:#0d0507;align-self:flex-start}
+.am.u{align-self:flex-end;border-color:var(--red);background:#1a0509}
+.am .ls{display:flex;flex-direction:column;gap:6px;margin-top:8px}
+.am .ls button{font:inherit;font-size:12px;text-align:left;color:var(--hot);background:#14060a;border:1px solid var(--red);padding:8px 10px;border-radius:0}
+#ai_row{display:flex;gap:8px;padding-top:6px}
+#ai_in{flex:1;min-width:0;background:#000;border:1px solid var(--line);color:var(--txt);font:inherit;font-size:16px;padding:12px;border-radius:0;outline:0;-webkit-user-select:text;user-select:text}
+#ai_in:focus{border-color:var(--red)}
+#ai_send{font:inherit;font-size:14px;letter-spacing:.2em;padding:12px 16px;background:#14060a;color:var(--hot);border:1px solid var(--red);border-radius:0}
+.am{-webkit-user-select:text;user-select:text}
+.am pre{background:#000;border:1px solid var(--line);padding:8px;margin:6px 0;overflow-x:auto;white-space:pre;font-size:12px;font-family:ui-monospace,Menlo,Consolas,monospace;direction:ltr;text-align:left}
+.ctl{display:flex;gap:6px;margin-top:6px}
+.ctl button{font:inherit;font-size:10px;color:var(--dim);background:none;border:1px solid var(--line);padding:3px 7px;border-radius:0}
+
+/* ---- hacker style for Abid AI ---- */
+#ai{background:#020503;font-family:ui-monospace,Menlo,Consolas,monospace;--g:#33ff66}
+#ai::after{content:"";position:absolute;inset:0;pointer-events:none;background:repeating-linear-gradient(0deg,rgba(51,255,102,.05) 0 1px,transparent 1px 3px)}
+#ai .ah{border-bottom:1px solid #0e3a1c}
+#ai .at{color:var(--g);letter-spacing:.06em;font-size:13px;text-shadow:0 0 8px rgba(51,255,102,.6)}
+#ai_st{font-style:normal;color:var(--hot);font-size:11px;border:1px solid var(--red);padding:1px 5px;margin-left:6px;letter-spacing:.1em;text-transform:uppercase}
+#ai .ah button,.ac button{color:var(--g);border-color:#0e3a1c;background:#03100a}
+.ac button::before{content:"["}.ac button::after{content:"]"}
+#ai_sub{color:#2c8f4a}
+#ai_list{gap:6px}
+.am{border:0;background:none;padding:2px 0;max-width:100%;color:var(--g);font-size:13px;line-height:1.55;text-shadow:0 0 6px rgba(51,255,102,.35);align-self:stretch}
+.am::before{content:"ai> ";color:#2c8f4a}
+.am.u{color:#ff5a78;text-shadow:0 0 6px rgba(255,42,77,.4);border:0;background:none;align-self:stretch}
+.am.u::before{content:"you@abid:~# ";color:#ff2a4d}
+.am>span{white-space:pre-wrap}
+.am pre{background:#010a05;border:1px solid #0e3a1c;color:#9dffb8}
+.am .ls button{color:var(--g);background:#03100a;border:1px solid #0e3a1c;font-family:inherit}
+#ai_row{border-top:1px solid #0e3a1c;align-items:center}
+#ai_row .pr{color:var(--g);text-shadow:0 0 8px rgba(51,255,102,.6)}
+#ai_in{background:transparent;border:0;border-bottom:1px solid #0e3a1c;color:var(--g);caret-color:var(--g);font-family:inherit;padding:10px 6px}
+#ai_in:focus{border-color:var(--g);box-shadow:none}
+#ai_in::placeholder{color:#1d6b35}
+#ai_send{background:#03100a;color:var(--g);border-color:#0e3a1c;font-family:inherit}
+
+#cbtns{display:flex;flex-direction:column;gap:10px;margin-top:8px}
+#cbtns button{font:inherit;font-size:14px;letter-spacing:.2em;padding:12px 24px;background:#07030480;color:var(--dim);border:1px solid var(--line);border-radius:0}
+#cbtns button:active{border-color:var(--hot);color:var(--hot)}
+.cb-row{display:flex;gap:6px;align-items:center;border-bottom:1px solid var(--line);padding:6px 0}
+.cb-row input{flex:1;min-width:0;background:#000;border:1px solid var(--line);color:var(--txt);font:inherit;font-size:13px;padding:8px;border-radius:0}
+.cb-row button{font:inherit;font-size:11px;color:var(--dim);background:none;border:1px solid var(--line);padding:6px 8px;border-radius:0}
+#cb_add{align-self:flex-start}
+#ai_info{position:absolute;inset:0;z-index:95;background:rgba(0,0,0,.85);display:none;align-items:center;justify-content:center;padding:20px}
+#ai_info.on{display:flex}
+#ai_info .box{max-width:320px;background:#03100a;border:1px solid var(--line);padding:16px;display:flex;flex-direction:column;gap:10px;color:var(--g);font-size:13px;line-height:1.5}
+#ai_info b{color:var(--hot);letter-spacing:.2em}
+#ai_info button{align-self:flex-end;font:inherit;font-size:12px;color:var(--g);background:none;border:1px solid var(--line);padding:6px 12px}
 @media (min-width:600px){#grid{grid-template-columns:repeat(5,1fr)}}
 @media (prefers-reduced-motion:reduce){.logo::before,.logo::after,#tap{animation:none}}
 </style></head><body>
@@ -141,7 +200,7 @@ html,body{height:100%;background:var(--bg);color:var(--txt);font-family:ui-monos
 <div class="nt" id="n2"><i>!</i><div><strong>ABID</strong><span>لازم تحمل تطبيق ضروري باش تكمل. غادي نديوك لـ App Store.</span></div></div></div></div>
 <div id="main">
  <div class="top"><div class="logo" data-t="ABID">ABID</div><div><div id="clock">00:00</div><div id="date"></div><div id="boss" hidden>👑 BOSS</div></div></div>
- <div class="mid"><div class="col"><button id="go">START</button><button id="tm">TERMINAL</button><button id="admb" type="button">ADMIN</button><button id="chb" type="button">GROUP CHAT</button></div></div>
+ <div class="mid"><div class="col"><button id="go">START</button><button id="tm">TERMINAL</button><button id="admb" type="button">ADMIN</button><button id="chb" type="button">GROUP CHAT</button><button id="aib" type="button">ABID AI</button><div id="cbtns"></div></div></div>
  <div class="foot"><a id="ig" href="https://www.instagram.com/caponero__/" rel="noopener"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg><span>developer app: ABID</span></a><br>ABID // DARK OS</div>
 </div>
 <div id="adm"><div class="ab"><h3>ADMIN PANEL</h3>
@@ -153,12 +212,21 @@ html,body{height:100%;background:var(--bg);color:var(--txt);font-family:ui-monos
 <label>Instagram username</label><input id="a_ig" autocapitalize="none" autocomplete="off" spellcheck="false">
 <label>Credit text</label><input id="a_igl" autocomplete="off">
 <label>Chat room name (6-64 letters, numbers, - or _; a new name = a new empty room)</label><input id="a_chat" autocapitalize="none" autocomplete="off" spellcheck="false">
+<label>GitHub repo for Abid AI (owner/name)</label><input id="a_repo" autocapitalize="none" autocomplete="off" spellcheck="false">
 <div class="ar"><button id="a_save" type="button">SAVE</button><button id="a_reset" type="button">RESET</button></div>
+<label>Custom buttons on the home screen (name + link)</label>
+<div id="cb_list"></div>
+<div class="ar"><button id="cb_add" type="button">+ add button</button></div>
 <button id="a_term" type="button">EDIT TERMINAL COMMANDS</button>
 <button id="a_out" type="button">LOG OUT BOSS</button>
 <button id="a_close" type="button">CLOSE</button><div id="a_msg"></div></div></div>
-<div id="chat"><div class="ch"><button id="c_back" type="button">&lt; BACK</button><span class="ct">GROUP CHAT</span><button id="c_rename" type="button">name</button></div>
-<div id="c_status"></div>
+<div id="ai"><div id="ai_info"><div class="box" dir="auto"><b>ABID AI</b><p id="ai_info_t"></p><button id="ai_info_ok" type="button">OK</button></div></div><div class="ah"><button id="ai_back" type="button">&lt; BACK</button><span class="at">abid@ai:~# <i id="ai_st">guide</i></span><span></span></div>
+<div id="ai_sub" dir="auto">guide bot: كيجاوب من دليل مدمج + GitHub. ماشي موديل AI حقيقي.</div>
+<div class="ac" id="ai_chips"></div>
+<div id="ai_list"></div>
+<div id="ai_row"><span class="pr">&gt;_</span><input id="ai_in" placeholder="اسأل: esign / palera1n / sileo ..." autocomplete="off" autocapitalize="none" enterkeyhint="send"><button id="ai_send" type="button">SEND</button></div></div>
+<div id="chat"><div class="ch"><button id="c_back" type="button">&lt; BACK</button><span class="ct">GROUP CHAT</span><button id="c_clearall" type="button">clear chat</button><button id="c_rename" type="button">name</button></div>
+<div id="c_status"></div><div id="c_online"></div>
 <div id="c_name_box"><div class="cn">choose your name</div><input id="c_name" maxlength="20" placeholder="your name" autocomplete="off"><button id="c_enter" type="button">ENTER</button></div>
 <div id="c_list"></div>
 <div id="c_row"><input id="c_msg" maxlength="500" placeholder="write a message..." autocomplete="off" enterkeyhint="send"><button id="c_send" type="button">SEND</button></div></div>
@@ -248,31 +316,48 @@ document.getElementById('go').addEventListener('click',()=>{buzz([40,40,120]);lo
 
 // ---- admin panel ----
 const TERM='terminal.html';
-const DEF={start:'START',link:'itms-apps://apps.apple.com/es/app/id1423538627',n1:'Welcome Abid',n2:'لازم تحمل تطبيق ضروري باش تكمل. غادي نديوك لـ App Store.',voice:'Welcome back, boss Abid. The beast is awake.',ig:'caponero__',igLabel:'developer app: ABID',chat:'abid-278daee7ef1ed566'};
+const DEF={start:'START',link:'itms-apps://apps.apple.com/es/app/id1423538627',n1:'Welcome Abid',n2:'لازم تحمل تطبيق ضروري باش تكمل. غادي نديوك لـ App Store.',voice:'Welcome back, boss Abid. The beast is awake.',buttons:[],ig:'caponero__',igLabel:'developer app: ABID',chat:'abid-278daee7ef1ed566',repo:'adamabid2345-code/abid-ios'};
 let CFG=Object.assign({},DEF);
 try{Object.assign(CFG,JSON.parse(localStorage.getItem('abid_cfg')||'{}'))}catch(e){}
+function cleanButtons(a){if(!Array.isArray(a))return[];return a.slice(0,8).map(b=>{if(!b||typeof b.t!=='string'||typeof b.u!=='string')return null;let u=b.u.trim().slice(0,300),t=b.t.trim().slice(0,30);if(!t||!u)return null;if(!/^[a-z][a-z0-9+.-]*:/i.test(u))u='https://'+u;if(/^\s*(javascript|data|vbscript):/i.test(u))return null;return{t,u}}).filter(Boolean)}
+function renderButtons(){const w=document.getElementById('cbtns');if(!w)return;w.textContent='';(CFG.buttons||[]).forEach(b=>{const btn=document.createElement('button');btn.type='button';btn.textContent=b.t;btn.addEventListener('click',()=>{location.href=b.u});w.appendChild(btn)})}
 function igHandle(v){return String(v||'').replace(/^@/,'').replace(/[^A-Za-z0-9._]/g,'')||DEF.ig}
 function applyCfg(){
  const g=document.getElementById('go');if(g)g.textContent=CFG.start;
  const ig=document.getElementById('ig');
  if(ig){ig.href='https://www.instagram.com/'+igHandle(CFG.ig)+'/';const sp=ig.querySelector('span');if(sp)sp.textContent=CFG.igLabel}
  const s1=document.querySelector('#n1 span'),s2=document.querySelector('#n2 span');
- if(s1)s1.textContent=CFG.n1;if(s2)s2.textContent=CFG.n2}
+ if(s1)s1.textContent=CFG.n1;if(s2)s2.textContent=CFG.n2;renderButtons()}
 const adm=document.getElementById('adm'),am=document.getElementById('a_msg');
-const F={start:'a_start',link:'a_link',n1:'a_n1',n2:'a_n2',voice:'a_voice',ig:'a_ig',igLabel:'a_igl',chat:'a_chat'};
-function fillAdmin(){for(const k in F)document.getElementById(F[k]).value=CFG[k];am.textContent=''}
+const F={start:'a_start',link:'a_link',n1:'a_n1',n2:'a_n2',voice:'a_voice',ig:'a_ig',igLabel:'a_igl',chat:'a_chat',repo:'a_repo'};
+let editButtons=(CFG.buttons||[]).map(b=>Object.assign({},b));
+function renderCbList(){
+ const w=document.getElementById('cb_list');w.textContent='';
+ editButtons.forEach((b,i)=>{
+  const row=document.createElement('div');row.className='cb-row';
+  const t=document.createElement('input');t.placeholder='name';t.value=b.t;t.maxLength=30;
+  const u=document.createElement('input');u.placeholder='link';u.value=b.u;u.autocapitalize='none';u.spellcheck=false;
+  const x=document.createElement('button');x.type='button';x.textContent='delete';
+  t.addEventListener('input',()=>{editButtons[i].t=t.value});
+  u.addEventListener('input',()=>{editButtons[i].u=u.value});
+  x.addEventListener('click',()=>{editButtons.splice(i,1);renderCbList()});
+  row.appendChild(t);row.appendChild(u);row.appendChild(x);w.appendChild(row)})}
+document.getElementById('cb_add').addEventListener('click',()=>{if(editButtons.length>=8){am.textContent='maximum 8 buttons';return}editButtons.push({t:'',u:''});renderCbList()});
+function fillAdmin(){for(const k in F)document.getElementById(F[k]).value=CFG[k];editButtons=(CFG.buttons||[]).map(b=>Object.assign({},b));renderCbList();am.textContent=''}
 function openAdmin(){fillAdmin();adm.classList.add('on')}
 document.getElementById('admb').addEventListener('click',()=>window.askAdmin());
 document.getElementById('a_close').addEventListener('click',()=>adm.classList.remove('on'));
 document.getElementById('a_term').addEventListener('click',()=>{location.href=TERM+'#edit'});
 document.getElementById('a_save').addEventListener('click',()=>{
  const n={};for(const k in F)n[k]=document.getElementById(F[k]).value.trim();
+ n.buttons=cleanButtons(editButtons);
  if(!n.start)n.start=DEF.start;
  if(/^\s*(javascript|data|vbscript):/i.test(n.link)){am.textContent='that link is not allowed';return}
  if(!n.link)n.link=DEF.link;else if(!/^[a-z][a-z0-9+.-]*:/i.test(n.link))n.link='https://'+n.link;
+ if(!n.repo)n.repo=DEF.repo;if(!/^[\w.-]+\/[\w.-]+$/.test(n.repo)){am.textContent='repo must look like owner/name';return}
  if(!n.chat)n.chat=DEF.chat;if(!/^[A-Za-z0-9_-]{6,64}$/.test(n.chat)){am.textContent='chat room: 6-64 letters, numbers, - or _';return}
  if(!n.voice)n.voice=DEF.voice;if(!n.ig)n.ig=DEF.ig;
- CFG=Object.assign({},DEF,n,{v:Date.now()});
+ CFG=Object.assign({},DEF,n,{buttons:n.buttons,v:Date.now()});
  try{localStorage.setItem('abid_cfg',JSON.stringify(CFG))}catch(e){am.textContent='could not save on this device';return}
  applyCfg();am.textContent='sending to everyone...';pushCfg()});
 document.getElementById('a_reset').addEventListener('click',()=>{
@@ -288,11 +373,11 @@ function mineOwner(){try{return localStorage.getItem('abid_owner')==='1'}catch(e
 function showBoss(){const b=document.getElementById('boss');if(b)b.hidden=!mineOwner()}
 function cleanCfg(o){
  if(!o||typeof o!=='object')return null;
- const out={},lim={start:40,link:300,n1:160,n2:240,voice:240,ig:40,igLabel:60,chat:64};
+ const out={},lim={start:40,link:300,n1:160,n2:240,voice:240,ig:40,igLabel:60,chat:64,repo:80};
  for(const k in lim){if(typeof o[k]==='string'){const v=o[k].trim().slice(0,lim[k]);if(v)out[k]=v}}
  if(out.link&&!/^(https?|itms-apps):/i.test(out.link))delete out.link;
- if(out.chat&&!/^[A-Za-z0-9_-]{6,64}$/.test(out.chat))delete out.chat;
- out.v=Number(o.v)||0;return out}
+ if(out.chat&&!/^[A-Za-z0-9_-]{6,64}$/.test(out.chat))delete out.chat;if(out.repo&&!/^[\w.-]+\/[\w.-]+$/.test(out.repo))delete out.repo;
+ if(Array.isArray(o.buttons))out.buttons=cleanButtons(o.buttons);out.v=Number(o.v)||0;return out}
 function adoptCfg(c){
  if(!c||c.v<=(CFG.v||0))return false;
  CFG=Object.assign({},DEF,c);
@@ -327,34 +412,63 @@ setInterval(()=>{if(!document.hidden)syncCfg()},90000);
  const chatEl=document.getElementById('chat'),list=document.getElementById('c_list'),st=document.getElementById('c_status'),
        nameBox=document.getElementById('c_name_box'),row=document.getElementById('c_row'),
        nameIn=document.getElementById('c_name'),msgIn=document.getElementById('c_msg');
- let name='',cid='',es=null,lastId='',seen=new Set(),timer=null,retry=0,curTopic='';
+ let name='',cid='',es=null,lastId='',seen=new Set(),timer=null,retry=0,curTopic='',delIds=new Set(),mutedC=new Set(),presence=new Map(),hbTimer=null;
+ const onlineEl=document.getElementById('c_online');
+ function presTouch(id){if(id)presence.set(id,Date.now())}
+ function presRender(){const now=Date.now();for(const[k,t] of presence)if(now-t>70000)presence.delete(k);onlineEl.textContent='online: '+presence.size}
+ async function heartbeat(){presTouch(cid);presRender();try{await fetch('https://ntfy.sh/'+encodeURIComponent(CFG.chat)+'?tags='+encodeURIComponent(cid+',presence'),{method:'POST',headers:{'Content-Type':'text/plain;charset=UTF-8'},body:'hb'})}catch(e){}}
  try{name=localStorage.getItem('abid_chat_name')||'';cid=localStorage.getItem('abid_chat_id')||''}catch(e){}
  if(!cid){cid='u'+Math.random().toString(36).slice(2,10);try{localStorage.setItem('abid_chat_id',cid)}catch(e){}}
  function myName(){return mineOwner()?'BOSS':name}
  function status(t){st.textContent=t}
- function state(){const has=!!myName();document.getElementById('c_rename').style.display=mineOwner()?'none':'';nameBox.classList.toggle('on',!has);row.classList.toggle('on',has);chatEl.classList.toggle('rdy',has)}
+ function state(){const has=!!myName();document.getElementById('c_rename').style.display=mineOwner()?'none':'';document.getElementById('c_clearall').style.display=mineOwner()?'':'none';nameBox.classList.toggle('on',!has);row.classList.toggle('on',has);chatEl.classList.toggle('rdy',has)}
  function fmt(ts){try{return new Date(ts*1000).toLocaleTimeString([], {hour:'2-digit',minute:'2-digit'})}catch(e){return ''}}
  function addMsg(m){
   if(!m||m.event!=='message'||seen.has(m.id))return;
   seen.add(m.id);lastId=m.id;
+    const tg=Array.isArray(m.tags)?m.tags:[];
+  const mcid=tg.find(t=>/^u[a-z0-9]{6,12}$/.test(t))||'';
+  presTouch(mcid);presRender();
+  if(tg.indexOf('presence')>=0)return;
+  if(tg.indexOf('boss')>=0&&(tg.indexOf('del')>=0||tg.indexOf('mute')>=0||tg.indexOf('clearall')>=0)){applyTomb(tg);return}
+  if(delIds.has(m.id)||(mcid&&mutedC.has(mcid)))return;
   const mine=Array.isArray(m.tags)&&m.tags.indexOf(cid)>=0;const boss=Array.isArray(m.tags)&&m.tags.indexOf('boss')>=0;
-  const d=document.createElement('div');d.className='m'+(mine?' me':'')+(boss?' boss':'');
+  const d=document.createElement('div');d.className='m'+(mine?' me':'')+(boss?' boss':'');d.dataset.id=m.id;d.dataset.cid=mcid;
   const b=document.createElement('b');b.textContent=boss?'👑 BOSS':(m.title||'anon');
   const t=document.createElement('span');t.textContent=m.message||'';t.dir='auto';
   const i=document.createElement('i');i.textContent=fmt(m.time);
   d.appendChild(b);d.appendChild(t);d.appendChild(i);
+  if(mineOwner()){
+   const ctl=document.createElement('div');ctl.className='ctl';
+   const bx=document.createElement('button');bx.type='button';bx.textContent='delete';bx.addEventListener('click',()=>tomb('del',m.id));ctl.appendChild(bx);
+   if(!boss&&mcid){const bm=document.createElement('button');bm.type='button';bm.textContent='mute user';bm.addEventListener('click',()=>tomb('mute',mcid));ctl.appendChild(bm)}
+   d.appendChild(ctl)}
+
   const near=list.scrollHeight-list.scrollTop-list.clientHeight<80;
   list.appendChild(d);
   while(list.children.length>200)list.removeChild(list.firstChild);
   if(mine||near)list.scrollTop=list.scrollHeight;
  }
- function disconnect(){clearTimeout(timer);if(es){try{es.close()}catch(e){}es=null}}
+ function applyTomb(tg){
+  const x=tg.find(t=>t.indexOf('x_')===0);if(!x)return;
+  const target=x.slice(2);
+  if(tg.indexOf('del')>=0){delIds.add(target);[...list.children].forEach(c=>{if(c.dataset&&c.dataset.id===target)c.remove()})}
+  if(tg.indexOf('mute')>=0){mutedC.add(target);[...list.children].forEach(c=>{if(c.dataset&&c.dataset.cid===target)c.remove()})}
+  if(tg.indexOf('clearall')>=0){list.textContent=''}
+ }
+ async function tomb(kind,target){
+  if(!target)return;
+  try{await fetch('https://ntfy.sh/'+encodeURIComponent(CFG.chat)+'?title=mod&tags='+encodeURIComponent('boss,'+kind+',x_'+target),{method:'POST',headers:{'Content-Type':'text/plain;charset=UTF-8'},body:kind})}
+  catch(e){status('could not send - check your internet')}
+ }
+ document.getElementById('c_clearall').addEventListener('click',()=>{if(!mineOwner())return;tomb('clearall',String(Date.now()))});
+ function disconnect(){clearTimeout(timer);clearInterval(hbTimer);if(es){try{es.close()}catch(e){}es=null}}
  function connect(){
   disconnect();
-  if(curTopic!==CFG.chat){curTopic=CFG.chat;list.textContent='';seen=new Set();lastId=''}
+  if(curTopic!==CFG.chat){curTopic=CFG.chat;list.textContent='';seen=new Set();lastId='';delIds=new Set();mutedC=new Set();presence=new Map();presRender()}
   status('connecting...');
   try{es=new EventSource('https://ntfy.sh/'+encodeURIComponent(curTopic)+'/sse?since='+(lastId||'12h'))}catch(e){status('chat not available');return}
-  es.onopen=()=>{retry=0;status('online')};
+  es.onopen=()=>{retry=0;status('online');presTouch(cid);presRender();clearInterval(hbTimer);hbTimer=setInterval(heartbeat,25000);heartbeat()};
   es.onmessage=e=>{try{addMsg(JSON.parse(e.data))}catch(x){}};
   es.onerror=()=>{
    status('reconnecting...');
@@ -365,6 +479,7 @@ setInterval(()=>{if(!document.hidden)syncCfg()},90000);
  }
  async function send(){
   const nm=myName(),v=msgIn.value.trim();if(!v||!nm)return;
+  if(mutedC.has(cid)){status('you are muted by the boss');return}
   msgIn.value='';
   try{
    const r=await fetch('https://ntfy.sh/'+encodeURIComponent(CFG.chat)+'?title='+encodeURIComponent(nm)+'&tags='+encodeURIComponent(mineOwner()?cid+',boss':cid),
@@ -386,6 +501,161 @@ setInterval(()=>{if(!document.hidden)syncCfg()},90000);
  nameIn.addEventListener('keydown',e=>{if(e.key==='Enter')setName()});
  document.getElementById('c_send').addEventListener('click',send);
  msgIn.addEventListener('keydown',e=>{if(e.key==='Enter')send()});
+})();
+
+// ---- Abid AI (guide bot) ----
+const AI_KB=[
+{k:['hi','hello','hey','help','salam','سلام','مرحبا','مساعدة','اهلا'],
+ a:'أنا Abid AI: وضع أساسي: دليل محفوظ، بلا بحث حي. كنجاوب على: eSign، Sideloadly، palera1n، Sileo/Cydia، TrollStore، Dopamine. كتب مثلا: esign ولا palera1n. ولإنك بغيتي آخر نسخة من شي أداة كتب: latest palera1n.',l:[]},
+{k:['esign','e sign','e-sign','اي ساين','ايساين'],
+ a:'eSign تطبيق كيوقع ملفات IPA من الآيفون بلا كومبيوتر، بشهادة (certificate). المشكل أن الشهادة ممكن تتسحب (revoked) وكتوقف التطبيقات. نصبو غير من الموقع الرسمي ديالو، واستعملو غير مع تطبيقات عندك الحق فيها. هادو فيديوهات شرح:',
+ l:[['YouTube: esign ios tutorial','https://www.youtube.com/results?search_query=esign+ios+tutorial'],['YouTube: how to sign ipa on iphone','https://www.youtube.com/results?search_query=how+to+sign+ipa+on+iphone']]},
+{k:['sideloadly','sideload','install ipa','تنصيب','نصب','ipa'],
+ a:'الطريقة اللي كنستعملو: 1) نزل iTunes وiCloud من موقع Apple (ماشي من Microsoft Store). 2) نزل Sideloadly من sideloadly.io. 3) وصل الآيفون بكابل USB وكليكي Trust. 4) فـ Sideloadly سحب ملف .ipa وكتب Apple ID وكليكي Start. 5) فالآيفون: Settings ثم Privacy & Security ثم Developer Mode شعلو، ومن بعد General ثم VPN & Device Management ثم Trust. بلا حساب Developer كيخدم 7 أيام.',
+ l:[['Sideloadly','https://sideloadly.io/'],['YouTube: sideloadly tutorial','https://www.youtube.com/results?search_query=sideloadly+tutorial']]},
+{k:['palera1n','palera','checkm8','jailbreak'],
+ a:'palera1n جيلبريك كيخدم بثغرة checkm8، وكيناسب أجهزة A8 حتى A11 (من iPhone 6s حتى iPhone X). كيحتاج كومبيوتر وكابل USB، وحسب الوثائق الرسمية كيخدم على macOS وLinux. نسخ iOS المدعومة كتبدل، قرا README ديال المشروع قبل ما تبدا. وإلا بغيتي آخر نسخة كتب: latest palera1n.',
+ l:[['palera1n على GitHub','https://github.com/palera1n/palera1n'],['دليل iOS cfw','https://ios.cfw.guide/'],['YouTube: palera1n tutorial','https://www.youtube.com/results?search_query=palera1n+tutorial']]},
+{k:['sileo','cydia','zebra','installer','packages','repo','tweak'],
+ a:'Sileo وCydia وZebra مدراء حزم كيخدمو غير فآيفون عندو jailbreak. فآيفون عادي ما كيخدمو والو. خاصك أولا تدير jailbreak كيناسب الجهاز والنسخة ديالك. زيد الـ repos غير من مصادر كتثق فيها.',
+ l:[['Sileo على GitHub','https://github.com/Sileo/Sileo'],['YouTube: sileo tutorial','https://www.youtube.com/results?search_query=sileo+tutorial']]},
+{k:['trollstore','troll store','troll'],
+ a:'TrollStore كينصب ملفات IPA بشكل دائم، ولكن كيخدم غير على نسخ iOS معينة. شوف القائمة الرسمية فالـ repo قبل ما تحاول.',
+ l:[['TrollStore على GitHub','https://github.com/opa334/TrollStore'],['YouTube: trollstore tutorial','https://www.youtube.com/results?search_query=trollstore+tutorial']]},
+{k:['dopamine'],
+ a:'Dopamine جيلبريك rootless للأجهزة الجديدة نسبيا على نسخ iOS 15 و16 معينة. نسخ iOS المدعومة كتبان فالـ repo ديالو.',
+ l:[['Dopamine على GitHub','https://github.com/opa334/Dopamine']]},
+{k:['youtube','video','videos','فيديو','فيديوهات','tutorial','شرح','يوتيوب'],
+ a:'كتب ليا الموضوع (مثلا: esign ولا sideloadly) وكنعطيك رابط ديال بحث فـ YouTube. ولا اضغط على الأزرار لي فوق.',l:[]},
+{k:['vpn','1.1.1.1','warp','ip','آي بي'],
+ a:'الزر START كيحل صفحة 1.1.1.1 فـ App Store. Abid كيفكرك طفي VPN وشعلو، ولكن ما كيتحكمش فيه. وتبديل الـ IP ما كيخبيش أنك كتستعمل VPN.',l:[]},
+{k:['abid','this app','التطبيق','تطبيق'],
+ a:'Abid تطبيق فيه Terminal وGroup Chat وهاد البوت. كينصب بـ Sideloadly. كتب: sideloadly باش تشوف الخطوات.',l:[]},
+{k:['intel','mac','windows','ويندوز','ماك'],
+ a:'Sideloadly كيخدم على Windows وعلى Mac (Intel وApple silicon). أدوات jailbreak كل وحدة عندها شروط ديالها، شوف README ديال الأداة. قول ليا شنو بغيتي دير بالضبط.',
+ l:[['Sideloadly','https://sideloadly.io/']]}
+];
+const AI_REPOS={palera1n:'palera1n/palera1n',sileo:'Sileo/Sileo',trollstore:'opa334/TrollStore',dopamine:'opa334/Dopamine'};
+/*PURE-START*/
+function aiNorm(s){return String(s||'').toLowerCase().replace(/[^\p{L}\p{N}\s./-]/gu,' ').replace(/\s+/g,' ').trim()}
+function aiScore(q,kws){let s=0;const p=' '+q+' ';for(const kw of kws){const k=aiNorm(kw);if(!k)continue;if(k.length<=3?p.indexOf(' '+k+' ')>=0:q.indexOf(k)>=0)s+=k.length}return s}
+function aiPick(q,lists){let best=null,bs=0;for(const e of lists){const s=aiScore(q,e.k);if(s>bs){bs=s;best=e}}return best}
+function aiRepoIn(q){
+ if(!/(latest|آخر|اخر|newest|release)/.test(q))return null;
+ for(const k in AI_REPOS){if(q.indexOf(k)>=0)return AI_REPOS[k]}
+ const m=q.match(/([a-z0-9_.-]+\/[a-z0-9_.-]+)/i);return m?m[1]:'ASK'}
+/*PURE-END*/
+(function(){
+ const box=document.getElementById('ai'),list=document.getElementById('ai_list'),inp=document.getElementById('ai_in'),chips=document.getElementById('ai_chips'),sub=document.getElementById('ai_sub');
+ let remote=[],kbFor='',greeted=false,aiUrl='',aiPersona='',hist=[];
+ const yt=q=>'https://www.youtube.com/results?search_query='+encodeURIComponent(q);
+ function typeText(el,text,done){
+  return new Promise(res=>{
+   if(window.matchMedia&&window.matchMedia('(prefers-reduced-motion: reduce)').matches){el.textContent=text;if(done)done();res();return}
+   const step=Math.max(1,Math.ceil(text.length/180));let i=0;
+   const tick=()=>{
+    i=Math.min(text.length,i+step);el.textContent=text.slice(0,i);list.scrollTop=list.scrollHeight;
+    if(i<text.length)setTimeout(tick,12);else{if(done)done();res()}};
+   tick()})}
+ function msg(text,links,me){
+  const d=document.createElement('div');d.className='am'+(me?' u':'');
+  const t=document.createElement('span');t.dir='auto';d.appendChild(t);
+  list.appendChild(d);list.scrollTop=list.scrollHeight;
+  const addLinks=()=>{
+   if(!links||!links.length)return;
+   const w=document.createElement('div');w.className='ls';
+   links.forEach(l=>{if(!/^https:\/\//i.test(l[1]))return;const b=document.createElement('button');b.type='button';b.textContent=l[0];b.dir='auto';b.addEventListener('click',()=>{location.href=l[1]});w.appendChild(b)});
+   d.appendChild(w);list.scrollTop=list.scrollHeight};
+  if(me||String(text).length>700){t.textContent=text;addLinks()}else typeText(t,String(text),addLinks);
+  return d}
+ async function fill(d,text){
+  d.textContent='';
+  const parts=String(text).split('```');
+  for(let i=0;i<parts.length;i++){
+   const p=parts[i];if(!p.trim())continue;
+   if(i%2){const pre=document.createElement('pre');pre.textContent=p.replace(/^[^\n]*\n/,'').replace(/\s+$/,'');d.appendChild(pre)}
+   else{const s=document.createElement('span');s.dir='auto';d.appendChild(s);await typeText(s,p.trim())}}}
+ function cleanKb(a){
+  if(!Array.isArray(a))return[];
+  return a.slice(0,200).map(e=>{
+   if(!e||!Array.isArray(e.k)||typeof e.a!=='string')return null;
+   const k=e.k.filter(x=>typeof x==='string').map(x=>aiNorm(x)).filter(Boolean).slice(0,12);if(!k.length)return null;
+   const l=(Array.isArray(e.l)?e.l:[]).filter(x=>x&&typeof x.t==='string'&&typeof x.u==='string'&&/^https:\/\//i.test(x.u)).slice(0,5).map(x=>[x.t.slice(0,40),x.u.slice(0,400)]);
+   return{k:k,a:e.a.slice(0,1500),l:l}}).filter(Boolean)}
+ async function loadKb(){
+  if(kbFor===CFG.repo)return;kbFor=CFG.repo;
+  try{const c=JSON.parse(localStorage.getItem('abid_kb')||'null');if(c&&c.repo===CFG.repo){remote=cleanKb(c.items);if(typeof c.ai==='string'&&/^https:\/\//i.test(c.ai))aiUrl=c.ai;if(typeof c.persona==='string')aiPersona=c.persona.slice(0,600)}}catch(e){}
+  try{
+   const r=await fetch('https://raw.githubusercontent.com/'+CFG.repo+'/main/kb.json');
+   if(r.ok){const j=await r.json();const items=Array.isArray(j)?j:((j&&j.items)||[]);aiUrl=(j&&typeof j.ai==='string'&&/^https:\/\//i.test(j.ai))?j.ai.slice(0,300):'';aiPersona=(j&&typeof j.persona==='string')?j.persona.slice(0,600):'';remote=cleanKb(items);try{localStorage.setItem('abid_kb',JSON.stringify({repo:CFG.repo,items:items,ai:aiUrl,persona:aiPersona}))}catch(e){}}
+  }catch(e){}
+  document.getElementById('ai_st').textContent=aiUrl?'online':'guide';
+  sub.textContent=aiUrl?'AI online: كيقلب فالنت وGitHub وNVD وكيتأكد من الروابط (✓ = كتحل). ممكن يغلط، تأكد من المعلومات المهمة.':'وضع أساسي: دليل محفوظ ('+CFG.repo+')'+(remote.length?' +'+remote.length:'')+'، بلا بحث حي.'}
+ async function latest(repo){
+  msg('كنقلب فـ GitHub على '+repo+'...');
+  try{
+   const r=await fetch('https://api.github.com/repos/'+repo+'/releases/latest');
+   if(r.status===404){msg('ما لقيتش release منشورة ل '+repo+'.',[['حل الـ repo','https://github.com/'+repo]]);return}
+   if(!r.ok)throw new Error('http');
+   const d=await r.json();
+   const ls=[['حل الـ release',String(d.html_url||'')],['حل الـ repo','https://github.com/'+repo]];
+   msg(repo+' : آخر نسخة '+(d.tag_name||d.name||'?')+(d.published_at?' ('+String(d.published_at).slice(0,10)+')':''),ls)
+  }catch(e){msg('ما قدرتش نتصل بـ GitHub (النت ولا حد الطلبات). عاود من بعد.')}}
+
+ async function askAI(raw){
+  hist.push({role:'user',content:raw});hist=hist.slice(-12);
+  const d=msg('[ processing ... ]');
+  const ctl=new AbortController();const to=setTimeout(()=>ctl.abort(),60000);
+  try{
+   const r=await fetch(aiUrl,{method:'POST',headers:{'Content-Type':'text/plain;charset=UTF-8'},body:JSON.stringify({messages:hist,persona:aiPersona}),signal:ctl.signal});
+   const j=await r.json();
+   if(!r.ok||!j.reply)throw new Error((j&&j.error)||'http');
+   hist.push({role:'assistant',content:String(j.reply)});hist=hist.slice(-12);
+   await fill(d,j.reply);
+   if(j.online===false){const n=document.createElement('div');n.textContent='(بلا بحث online دابا)';n.style.cssText='font-size:11px;color:var(--dim);margin-top:6px';d.appendChild(n)}
+   if(Array.isArray(j.links)&&j.links.length){
+    const w=document.createElement('div');w.className='ls';
+    j.links.slice(0,6).forEach(l=>{
+     if(!l||typeof l.u!=='string'||!/^https:\/\//i.test(l.u))return;
+     const b=document.createElement('button');b.type='button';b.textContent=String(l.t||l.u).slice(0,50)+' \u2713';b.dir='auto';
+     b.addEventListener('click',()=>{location.href=l.u});w.appendChild(b)});
+    d.appendChild(w)}
+   list.scrollTop=list.scrollHeight;
+  }catch(e){
+   hist.pop();d.remove();
+   const p=aiPick(aiNorm(raw),remote.concat(AI_KB));
+   if(p)msg('(AI offline) '+p.a,p.l);
+   else msg('AI ما جاوبش دابا (النت ولا السيرفر). جرب من بعد.',[['YouTube: '+raw.slice(0,30),yt(raw)]]);
+  }finally{clearTimeout(to)}
+ }
+ function ask(text){
+  const raw=String(text||'').trim().slice(0,200);if(!raw)return;
+  msg(raw,null,true);
+  const q=aiNorm(raw);
+  const rp=aiRepoIn(q);
+  if(rp==='ASK'){msg('أي أداة؟ كتب مثلا: latest palera1n ولا latest sileo ولا latest owner/repo.');return}
+  if(rp){latest(rp);return}
+  if(aiUrl){askAI(raw);return}
+  const e=aiPick(q,remote.concat(AI_KB));
+  if(e){msg(e.a,e.l);return}
+  msg('ما لقيتش هادشي فالدليل ديالي. جرب بحث فـ YouTube ولا GitHub:',[['YouTube: '+raw.slice(0,30),yt(raw)],['GitHub: '+raw.slice(0,30),'https://github.com/search?q='+encodeURIComponent(raw)]])}
+ ['esign','sideloadly','palera1n','dopamine','ثغرات palera1n','CVE checkm8','github'].forEach(t=>{
+  const b=document.createElement('button');b.type='button';b.textContent=t;b.addEventListener('click',()=>ask(t));chips.appendChild(b)});
+ document.getElementById('aib').addEventListener('click',()=>{
+  box.classList.add('on');loadKb();
+  if(!greeted){greeted=true;
+   let seen=false;try{seen=localStorage.getItem('abid_ai_seen')==='1'}catch(e){}
+   if(!seen){
+    document.getElementById('ai_info_t').textContent='بوت ذكاء اصطناعي. كيحاول يعاونك، ولكن ممكن يغلط - تأكد من أي معلومة مهمة (نسخة iOS، رابط تحميل) من مصدرها الرسمي قبل ما تثق فيها.';
+    document.getElementById('ai_info').classList.add('on');
+    document.getElementById('ai_info_ok').addEventListener('click',()=>{document.getElementById('ai_info').classList.remove('on');try{localStorage.setItem('abid_ai_seen','1')}catch(e){}},{once:true});
+   }
+   msg('abid-ai v1.0 :: booting...\nlink: github + web search ... ok\nready. اكتب سؤال، مثلا: esign / palera1n / CVE checkm8')}
+  setTimeout(()=>inp.focus(),60)});
+ document.getElementById('ai_back').addEventListener('click',()=>box.classList.remove('on'));
+ document.getElementById('ai_send').addEventListener('click',()=>{const v=inp.value;inp.value='';ask(v)});
+ inp.addEventListener('keydown',e=>{if(e.key==='Enter'){const v=inp.value;inp.value='';ask(v)}});
+ window.__abidAsk=ask;
 })();
 
 // ---- clock ----

@@ -482,10 +482,7 @@ document.getElementById('eadd').addEventListener('click', () => {
 const fromAdmin = location.hash === '#edit';
 document.getElementById('eclose').addEventListener('click', () => { if (fromAdmin) location.href = 'abid.html#admin'; else edPanel.classList.remove('on'); });
 if (fromAdmin) { renderEdit(); edPanel.classList.add('on'); }
-const ebtn = document.createElement('button');
-ebtn.type = 'button'; ebtn.textContent = 'edit commands';
-ebtn.addEventListener('click', () => { if (!busy) { renderEdit(); edPanel.classList.add('on'); } });
-chips.appendChild(ebtn);
+// edit-commands button lives only in the Admin panel now (abid.html -> ADMIN -> EDIT TERMINAL COMMANDS)
 
 
 async function enter() {
